@@ -23,19 +23,6 @@ export default async function BlogListPage() {
             일상의 생각들을 담고 있는 공간입니다.
           </p>
         </div>
-
-        {/* 새 글 작성 버튼 */}
-        <Link
-          href="/blog/new"
-          className="
-            inline-flex items-center gap-2
-            rounded-lg border px-3 py-2 text-sm font-medium
-            bg-background hover:bg-muted transition
-          "
-        >
-          <PlusCircle className="h-4 w-4"/>
-          새 글 작성
-        </Link>
       </section>
 
       {/* Blog List */}
