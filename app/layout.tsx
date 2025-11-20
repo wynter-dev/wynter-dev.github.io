@@ -21,7 +21,7 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
     <html lang="ko" suppressHydrationWarning>
     <head>
       <meta
-        name="google-site-verification"
+        name="google-adsense-account"
         content="ca-pub-6689558343928586"
       />
       <title></title>
