@@ -18,6 +18,8 @@ const POSTS_DIR = path.join(process.cwd(), 'src/content/posts');
  * 파일 목록 가져오기
  */
 export function getPostSlugs() {
+  if (!fs.existsSync(POSTS_DIR)) return [];
+
   return fs
     .readdirSync(POSTS_DIR)
     .filter((f) => f.endsWith('.md') || f.endsWith('.mdx'))
@@ -28,13 +30,20 @@ export function getPostSlugs() {
  * 개별 글 읽기 (frontmatter + content)
  */
 export async function getPostBySlug(slug: string) {
-  const filePath = path.join(POSTS_DIR, `${slug}.mdx`);
+  const mdxPath = path.join(POSTS_DIR, `${slug}.mdx`);
+  const mdPath = path.join(POSTS_DIR, `${slug}.md`);
 
-  if(!fs.existsSync(filePath)) {
+  const filePath = fs.existsSync(mdxPath)
+    ? mdxPath
+    : fs.existsSync(mdPath)
+      ? mdPath
+      : null;
+
+  if (!filePath) {
     notFound();
   }
 
-  const fileContent = fs.readFileSync(filePath, 'utf8');
+  const fileContent = fs.readFileSync(filePath, "utf8");
 
   const { content, frontmatter } = await compileMDX<PostMeta>({
     source: fileContent,
@@ -48,33 +57,35 @@ export async function getPostBySlug(slug: string) {
     meta: {
       slug,
       title: frontmatter.title ?? slug,
-      description: frontmatter.description ?? '',
-      date: frontmatter.date ?? '',
+      description: frontmatter.description ?? "",
+      date: frontmatter.date ?? "",
       tags: frontmatter.tags ?? [],
     },
     content,
   };
 }
 
+
 /**
  * 전체 글 목록 가져오기 (정렬 포함)
  */
 export async function getAllPosts() {
   const slugs = getPostSlugs();
+  if (slugs.length === 0) return [];
 
   const posts = await Promise.all(
-    slugs.map(async(slug) => {
-      const {meta} = await getPostBySlug(slug);
+    slugs.map(async (slug) => {
+      const { meta } = await getPostBySlug(slug);
       return meta;
-    }),
+    })
   );
 
-  // 최신 날짜 기준 정렬
   return posts.sort((a, b) => (a.date > b.date ? -1 : 1));
 }
 
 export async function getAllTags() {
   const posts = await getAllPosts();
+  if (posts.length === 0) return [];
   const tagMap: Record<string, number> = {};
 
   posts.forEach((post) => {
