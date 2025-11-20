@@ -6,10 +6,10 @@ import { usePathname } from 'next/navigation';
 import { BookOpen, Folder, Home, Rss } from 'lucide-react';
 
 const items = [
-  {href: '/', label: 'Home', icon: Home},
-  {href: '/blog', label: 'Blog', icon: BookOpen},
-  {href: '/tags', label: 'Tags', icon: Folder},
-  {href: '/rss', label: 'RSS', icon: Rss},
+  { href: '/', label: 'Home', icon: Home },
+  { href: '/blog', label: 'Blog', icon: BookOpen },
+  { href: '/tags', label: 'Tags', icon: Folder },
+  { href: '/rss.xml', label: 'RSS', icon: Rss },
 ];
 
 export function Sidebar() {

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
-import { createPost } from '@/app/actions/create-post';
+import { createPost } from '../../actions/create-post';
 import { useRouter } from 'next/navigation';
 import { Loader2 } from 'lucide-react';
 

@@ -1,8 +1,11 @@
-import { getPostBySlug, getPostSlugs } from '@/lib/mdx';
+import { getPostBySlug, getAllPosts } from "@/lib/mdx";
+import "@/styles/markdown.css";
+import { Calendar, Tag } from "lucide-react";
+import Link from "next/link";
 
 export async function generateStaticParams() {
-  const slugs = getPostSlugs();
-  return slugs.map((slug) => ({slug}));
+  const posts = await getAllPosts();
+  return posts.map((p) => ({ slug: p.slug }));
 }
 
 export default async function BlogPostPage({params}: {params: {slug: string}}) {
@@ -11,10 +14,42 @@ export default async function BlogPostPage({params}: {params: {slug: string}}) {
   const {meta, content} = await getPostBySlug(slug);
 
   return (
-    <article className="prose dark:prose-invert max-w-none">
-      <h1>{meta.title}</h1>
-      <p className="text-sm text-muted-foreground">{meta.date}</p>
-      {content}
-    </article>
+    <main className="max-w-3xl mx-auto px-4 py-12 space-y-12">
+      {/* Title */}
+      <section className="space-y-4">
+        <h1 className="text-3xl font-bold tracking-tight">
+          {meta.title}
+        </h1>
+
+        <div className="flex items-center gap-4 text-sm text-muted-foreground">
+          <span className="flex items-center gap-1">
+            <Calendar className="h-4 w-4" />
+            {meta.date}
+          </span>
+
+          {meta.tags?.length > 0 && (
+            <span className="flex items-center gap-1">
+              <Tag className="h-4 w-4" />
+              {meta.tags.join(", ")}
+            </span>
+          )}
+        </div>
+      </section>
+
+      {/* Content */}
+      <article className="markdown-body">
+        {content}
+      </article>
+
+      {/* Footer */}
+      <section className="pt-10 border-t flex justify-between text-sm">
+        <Link
+          href="/blog"
+          className="text-primary hover:underline underline-offset-4"
+        >
+          ← 블로그 목록
+        </Link>
+      </section>
+    </main>
   );
 }

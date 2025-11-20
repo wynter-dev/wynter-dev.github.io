@@ -71,3 +71,23 @@ export async function getAllPosts() {
   // 최신 날짜 기준 정렬
   return posts.sort((a, b) => (a.date > b.date ? -1 : 1));
 }
+
+export async function getAllTags() {
+  const posts = await getAllPosts();
+  const tagMap: Record<string, number> = {};
+
+  posts.forEach((post) => {
+    // 빈 태그 제거
+    const validTags = (post.tags ?? [])
+      .map((t) => t.trim())
+      .filter((t) => t.length > 0);
+
+    validTags.forEach((tag) => {
+      tagMap[tag] = (tagMap[tag] || 0) + 1;
+    });
+  });
+
+  return Object.entries(tagMap)
+               .map(([tag, count]) => ({tag, count}))
+               .sort((a, b) => a.tag.localeCompare(b.tag));
+}
