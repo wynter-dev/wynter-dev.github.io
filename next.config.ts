@@ -1,4 +1,6 @@
 import type {NextConfig} from 'next';
+const isProd = process.env.NODE_ENV === 'production';
+const repositoryName = 'wynter-dev.github.io';
 
 const nextConfig: NextConfig = {
   output: 'export',
@@ -9,6 +11,7 @@ const nextConfig: NextConfig = {
   compiler: {
     styledComponents: true,
   },
+  basePath: isProd ? `/${repositoryName}` : '',
 };
 
 export default nextConfig;
