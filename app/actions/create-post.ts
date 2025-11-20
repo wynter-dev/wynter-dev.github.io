@@ -27,8 +27,7 @@ export async function createPost({
 
   const mdx = `---
 title: "${title}"
-description: |
-${descriptionText}
+description: ${descriptionText}
 date: "${new Date().toISOString().split('T')[0]}"
 tags: [${tags.map((t) => `"${t}"`).join(', ')}]
 ---
