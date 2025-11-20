@@ -14,7 +14,6 @@ export default function NewBlogPostPage() {
   const [loading, setLoading] = useState(false);
 
   const [title, setTitle] = useState("");
-  const [description, setDescription] = useState(""); // Markdown
   const [tags, setTags] = useState("");
   const [content, setContent] = useState("## 본문을 작성하세요");
 
@@ -34,7 +33,6 @@ export default function NewBlogPostPage() {
 
     const res = await createPost({
       title,
-      description,
       content,
       tags: tags.split(",").map((t) => t.trim()),
     });
@@ -59,27 +57,6 @@ export default function NewBlogPostPage() {
           />
         </div>
 
-        {/* Description (Markdown 지원) */}
-        <div>
-          <label className="block mb-2 text-sm font-medium">Description (Markdown 가능)</label>
-          <textarea
-            className="w-full h-32 border rounded-md px-3 py-2 bg-background font-mono text-sm"
-            placeholder="여기에 포스트 요약을 Markdown으로 작성하세요."
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-        </div>
-
-        {/* Tags */}
-        <div>
-          <label className="block mb-2 text-sm font-medium">태그 (쉼표 구분)</label>
-          <input
-            className="w-full border rounded-md px-3 py-2 bg-background"
-            value={tags}
-            onChange={(e) => setTags(e.target.value)}
-          />
-        </div>
-
         {/* 본문(MDX) 에디터 */}
         <div data-color-mode="light">
           <label className="block mb-2 text-sm font-medium">내용 (MDX Editor)</label>
@@ -95,6 +72,16 @@ export default function NewBlogPostPage() {
                 setContent((prev) => prev + `\n\n![](${url})\n`);
               }
             }}
+          />
+        </div>
+
+        {/* Tags */}
+        <div>
+          <label className="block mb-2 text-sm font-medium">태그 (쉼표 구분)</label>
+          <input
+            className="w-full border rounded-md px-3 py-2 bg-background"
+            value={tags}
+            onChange={(e) => setTags(e.target.value)}
           />
         </div>
 
