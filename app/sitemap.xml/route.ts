@@ -1,38 +1,48 @@
-import { getAllPosts } from "@/lib/mdx";
+import { getAllPosts } from '@/lib/mdx';
 
-export const runtime = "nodejs";
+export const runtime = 'nodejs';
+
+// 날짜 유효성 검사 함수
+function isValidDate(date: any) {
+  return !isNaN(new Date(date).getTime());
+}
 
 export async function GET() {
-  const siteUrl = "https://your-domain.com"; // 🔥 꼭 수정해!
+  const siteUrl = 'https://wynter-dev.vercel.app';
 
   const posts = await getAllPosts();
 
   const postUrls = posts
     .map((p) => {
+      const date = isValidDate(p.date)
+        ? new Date(p.date).toISOString()
+        : new Date().toISOString(); // fallback
+
       return `
   <url>
     <loc>${siteUrl}/blog/${p.slug}</loc>
-    <lastmod>${new Date(p.date).toISOString()}</lastmod>
+    <lastmod>${date}</lastmod>
   </url>
 `;
     })
-    .join("");
+    .join('');
 
   const staticUrls = [
-    "",
-    "/blog",
-    "/about",
-    "/blog/tags",
+    '',
+    '/blog',
+    '/about',
+    '/blog/tags',
   ]
     .map((path) => {
+      const now = new Date().toISOString();
       return `
   <url>
     <loc>${siteUrl}${path}</loc>
-    <lastmod>${new Date().toISOString()}</lastmod>
+    <lastmod>${now}</lastmod>
   </url>
 `;
     })
-    .join("");
+    .join('');
 
   const xml = `<?xml version="1.0" encoding="UTF-8" ?>
 <urlset 
@@ -45,7 +55,7 @@ ${postUrls}
 
   return new Response(xml, {
     headers: {
-      "Content-Type": "application/xml",
+      'Content-Type': 'application/xml',
     },
   });
 }
