@@ -1,65 +1,89 @@
-import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight, PenLine } from "lucide-react";
+import { getAllPosts } from "@/lib/mdx";
 
-export default function Home() {
+export default async function HomePage() {
+  const posts = await getAllPosts();
+  const recent = posts.slice(0, 3); // 최신 3개만
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <main className="flex flex-col items-center px-6 py-16">
+      {/* Hero Section */}
+      <section className="text-center space-y-6 max-w-2xl">
+        <div className="inline-flex items-center rounded-full border px-3 py-1 text-sm text-muted-foreground bg-muted/40 tracking-tight">
+          <PenLine className="h-4 w-4 mr-2" />
+          Wynter.log — Dev & Life Notes
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        <h1 className="text-4xl font-semibold tracking-tight">
+          프론트엔드, 인프라, <br />
+          그리고 일상의 기록들
+        </h1>
+
+        <p className="text-muted-foreground leading-relaxed text-sm">
+          개발하면서 배우고 느낀 점들,
+          인프라 트러블슈팅,
+          투자와 공인중개사 공부까지
+          Wynter의 생각들을 담아두는 블로그입니다.
+        </p>
+
+        <Link
+          href="/blog"
+          className="
+            inline-flex items-center mt-2
+            rounded-md bg-primary px-5 py-2 text-primary-foreground
+            hover:bg-primary/90 transition
+          "
+        >
+          블로그 글 보러가기
+          <ArrowRight className="ml-2 h-4 w-4" />
+        </Link>
+      </section>
+
+      {/* Divider */}
+      <div className="my-16 h-px w-full max-w-xl bg-border" />
+
+      {/* Recent Posts */}
+      <section className="w-full max-w-2xl space-y-6">
+        <h2 className="text-xl font-semibold">최근 글</h2>
+
+        <div className="space-y-4">
+          {recent.length === 0 && (
+            <p className="text-sm text-muted-foreground">
+              아직 작성한 글이 없어요. 첫 글을 작성해보세요!
+            </p>
+          )}
+
+          {recent.map((post) => (
+            <Link
+              href={`/blog/${post.slug}`}
+              key={post.slug}
+              className="
+                block rounded-lg border p-5
+                hover:bg-muted/40 transition
+              "
+            >
+              <h3 className="text-lg font-semibold">{post.title}</h3>
+              <p className="text-sm text-muted-foreground mt-1">
+                {post.description}
+              </p>
+              <span className="text-xs text-muted-foreground">
+                {post.date}
+              </span>
+            </Link>
+          ))}
         </div>
-      </main>
-    </div>
+
+        <div className="pt-4">
+          <Link
+            href="/blog"
+            className="text-sm text-primary hover:underline inline-flex items-center"
+          >
+            전체 글 보기
+            <ArrowRight className="ml-1 h-4 w-4" />
+          </Link>
+        </div>
+      </section>
+    </main>
   );
 }
