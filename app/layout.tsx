@@ -8,29 +8,25 @@ import { MainFooter } from '@/components/layout/main-footer';
 import { Sidebar } from '@/components/layout/sidebar';
 import { Geist, Geist_Mono } from 'next/font/google';
 
-const geistSans = Geist({variable: '--font-geist-sans', subsets: ['latin']});
-const geistMono = Geist_Mono({variable: '--font-geist-mono', subsets: ['latin']});
+const geistSans = Geist({ variable: '--font-geist-sans', subsets: ['latin'] });
+const geistMono = Geist_Mono({ variable: '--font-geist-mono', subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'Wynter Blog',
   description: 'Developer & Life Notes',
 };
 
-export default function RootLayout({children}: {children: React.ReactNode}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ko" suppressHydrationWarning>
     <head>
-      <meta
-        name="google-adsense-account"
-        content="ca-pub-6689558343928586"
-      />
-      <title></title>
+      <meta name="google-adsense-account" content="ca-pub-6689558343928586" />
     </head>
     <body
       className={cn(
         'min-h-screen bg-background text-foreground antialiased font-sans',
         geistSans.variable,
-        geistMono.variable,
+        geistMono.variable
       )}
     >
     {/* Google AdSense */}
@@ -43,14 +39,14 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
     />
 
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-      <MainHeader/>
-      <Sidebar/>
-
-      <main className="md:ml-56 min-h-[80vh] px-4 py-12 mx-auto max-w-5xl">
-        {children}
-      </main>
-
-      <MainFooter/>
+      <div className="relative mx-auto w-full max-w-[1024px] px-4">
+        <MainHeader />
+        <Sidebar />
+        <main className="min-h-[90vh] py-12 md:pl-56">
+          {children}
+        </main>
+        <MainFooter />
+      </div>
     </ThemeProvider>
     </body>
     </html>

@@ -15,7 +15,7 @@ export default async function BlogPostPage({params}: {params: {slug: string}}) {
   const {meta, content} = await getPostBySlug(slug);
 
   return (
-    <main className="max-w-3xl mx-auto px-4 py-12 space-y-12">
+    <main className="flex flex-col">
       {/* Title */}
       <section className="space-y-4">
         <h1 className="text-3xl font-bold tracking-tight">

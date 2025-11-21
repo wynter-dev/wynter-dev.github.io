@@ -1,7 +1,7 @@
 // src/app/blog/page.tsx
 import Link from 'next/link';
 import { getAllPosts } from '@/lib/mdx';
-import { ArrowRight, Calendar, Tag, PlusCircle } from 'lucide-react';
+import { ArrowRight, Calendar, Tag } from 'lucide-react';
 import AdBanner from '@/components/ad/AdBanner';
 
 export const metadata = {
@@ -13,9 +13,8 @@ export default async function BlogListPage() {
   const posts = await getAllPosts();
 
   return (
-    <main className="space-y-12">
-      {/* Header Section */}
-      <section className="flex items-start justify-between">
+    <main className="flex flex-col">
+      <section className="flex items-start justify-between mb-5">
         <div className="space-y-3">
           <h1 className="text-3xl font-semibold tracking-tight">블로그</h1>
           <p className="text-muted-foreground text-sm leading-relaxed">
@@ -24,8 +23,6 @@ export default async function BlogListPage() {
           </p>
         </div>
       </section>
-
-      {/* Blog List */}
       <section className="space-y-6">
         {posts.length === 0 && (
           <p className="text-muted-foreground text-sm">작성된 글이 없습니다.</p>

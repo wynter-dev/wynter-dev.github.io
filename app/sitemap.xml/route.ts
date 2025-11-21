@@ -3,7 +3,7 @@ import { getAllPosts } from '@/lib/mdx';
 export const runtime = 'nodejs';
 
 // 날짜 유효성 검사 함수
-function isValidDate(date: any) {
+function isValidDate(date: string | number | Date) {
   return !isNaN(new Date(date).getTime());
 }
 

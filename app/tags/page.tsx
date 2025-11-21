@@ -10,7 +10,7 @@ export default async function TagsPage() {
   console.log(tags);
 
   return (
-    <main className="max-w-3xl mx-auto px-4 py-12 space-y-10">
+    <main className="flex flex-col">
       <h1 className="text-3xl font-bold tracking-tight">Tags</h1>
 
       <section className="flex flex-wrap gap-3 pt-4">

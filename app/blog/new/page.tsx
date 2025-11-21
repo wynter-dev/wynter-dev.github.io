@@ -42,7 +42,7 @@ export default function NewBlogPostPage() {
   }
 
   return (
-    <main className="max-w-4xl mx-auto px-4 py-12 space-y-10">
+    <main className="flex flex-col">
       <h1 className="text-3xl font-semibold tracking-tight">새 글 작성</h1>
 
       <form onSubmit={handleSubmit} className="space-y-8">

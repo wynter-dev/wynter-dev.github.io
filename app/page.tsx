@@ -8,7 +8,6 @@ export default async function HomePage() {
 
   return (
     <main className="flex flex-col items-center px-6 py-16">
-      {/* Hero Section */}
       <section className="text-center space-y-6 max-w-2xl">
         <div className="inline-flex items-center rounded-full border px-3 py-1 text-sm text-muted-foreground bg-muted/40 tracking-tight">
           <PenLine className="h-4 w-4 mr-2" />

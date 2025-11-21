@@ -18,8 +18,8 @@ export function Sidebar() {
   return (
     <aside
       className={cn(
-        'hidden md:block w-56 h-screen border-r fixed top-0 left-0 pt-20 pb-10',
-        'bg-background/50 backdrop-blur',
+        'hidden md:block w-56 h-screen border-r bg-background/50 backdrop-blur',
+        'fixed left-1/2 -translate-x-[512px] top-0 pt-20 pb-10'
       )}
     >
       <nav className="px-6 space-y-2">
