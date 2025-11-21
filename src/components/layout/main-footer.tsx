@@ -18,7 +18,7 @@ export function MainFooter() {
       <p className="text-xs">Built with Next.js · TailwindCSS · shadcn/ui</p>
 
       <Link
-        href="https://github.com"
+        href="https://github.com/wynter-dev"
         className="text-xs underline hover:text-foreground transition"
         target="_blank"
       >
