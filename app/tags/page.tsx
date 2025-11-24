@@ -1,4 +1,4 @@
-import { getAllTags } from "@/lib/mdx";
+import { getAllTags } from "@/utils/mdx";
 import Link from "next/link";
 
 export const metadata = {
@@ -12,8 +12,7 @@ export default async function TagsPage() {
   return (
     <main className="flex flex-col">
       <h1 className="text-3xl font-bold tracking-tight">Tags</h1>
-
-      <section className="flex flex-wrap gap-3 pt-4">
+      <section className="flex flex-wrap gap-3 pt-5">
         {tags.map(({ tag, count }) => (
           <Link
             key={tag}

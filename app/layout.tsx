@@ -2,10 +2,10 @@ import Script from 'next/script';
 import type {Metadata} from 'next';
 import '@/styles/globals.css';
 import {cn} from '@/lib/utils';
-import {ThemeProvider} from '@/components/theme-provider';
-import {MainHeader} from '@/components/layout/main-header';
-import {MainFooter} from '@/components/layout/main-footer';
-import {Sidebar} from '@/components/layout/sidebar';
+import {ThemeProvider} from '@/components/ThemeProvider';
+import MainHeader from '@/components/layout/header/MainHeader';
+import {MainFooter} from '@/components/layout/MainFooter';
+import {Sidebar} from '@/components/layout/Sidebar';
 import {Geist_Mono} from 'next/font/google';
 import localFont from 'next/font/local';
 
@@ -58,7 +58,7 @@ export default function RootLayout({children}: { children: React.ReactNode }) {
         <MainHeader />
         <div className="flex flex-1 mx-auto w-full max-w-[1024px] px-4">
           <Sidebar />
-          <main className="flex-1 relative overflow-y-auto py-12 md:pl-56">
+          <main className="flex-1 relative overflow-y-auto py-12 md:pl-10">
             {children}
           </main>
         </div>

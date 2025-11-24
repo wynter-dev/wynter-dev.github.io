@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ArrowRight, PenLine } from "lucide-react";
-import { getAllPosts } from "@/lib/mdx";
+import { getAllPosts } from "@/utils/mdx";
 
 export default async function HomePage() {
   const posts = await getAllPosts();

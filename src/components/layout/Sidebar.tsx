@@ -1,0 +1,112 @@
+'use client';
+
+import Link from 'next/link';
+import {usePathname} from 'next/navigation';
+import {cn} from '@/lib/utils';
+import {BookOpen, Folder, Home, Rss} from 'lucide-react';
+import {Accordion, AccordionContent, AccordionItem, AccordionTrigger} from '@/components/ui/accordion';
+import {CATEGORIES, EnhancedCategoryNode, getCategoryUrl, isCategoryActive} from '@/utils/category';
+
+export function Sidebar() {
+  const pathname = usePathname();
+
+  const sidebarItems = [
+    {href: '/', label: 'Home', icon: Home},
+    {href: '/blog', label: 'Blog', icon: BookOpen},
+    {href: '/tags', label: 'Tags', icon: Folder},
+    {href: '/rss.xml', label: 'RSS', icon: Rss},
+  ];
+
+  const renderCategoryNode = (node: EnhancedCategoryNode, depth = 1) => {
+    const url = getCategoryUrl(node.fullPath);
+    const active = isCategoryActive(pathname, node.fullPath);
+
+    const depthStyle =
+      depth === 1
+        ? 'pl-0 text-sm font-semibold'
+        : depth === 2
+          ? 'pl-4 text-sm font-medium'
+          : 'pl-8 text-xs font-normal';
+
+    const hasChildren = Array.isArray(node.children) && node.children.length > 0;
+
+    return (
+      <div key={node.value}>
+        <Link
+          href={url}
+          className={cn(
+            'block py-1 rounded hover:bg-muted/40 transition',
+            depthStyle,
+            active && 'bg-muted text-primary font-bold'
+          )}
+        >
+          {node.label}
+        </Link>
+        {hasChildren && (
+          <div className="mt-1 space-y-1">
+            {node.children!.map((child: EnhancedCategoryNode) => renderCategoryNode(child, depth + 1))}
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  const isBlogActive = pathname.startsWith('/blog');
+
+  return (
+    <aside
+      className="hidden md:block w-56
+        sticky top-16
+        h-[calc(100vh-64px)]
+        border-r bg-background/50 backdrop-blur
+        overflow-y-auto z-40
+      "
+    >
+      <nav className="px-6 py-6 space-y-2">
+        {sidebarItems.map((item) =>
+          item.label !== 'Blog' ? (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={cn(
+                'flex items-center gap-3 text-sm px-3 py-2 rounded-md text-muted-foreground hover:bg-muted hover:text-foreground transition',
+                pathname === item.href && 'bg-muted text-foreground font-medium'
+              )}
+            >
+              <item.icon className="h-4 w-4" />
+              {item.label}
+            </Link>
+          ) : (
+            <Accordion
+              key="blog-accordion"
+              type="single"
+              collapsible
+              defaultValue={isBlogActive ? 'blog' : undefined}
+              className="w-full"
+            >
+              <AccordionItem value="blog">
+                <div className="flex items-center rounded-md hover:bg-muted transition px-3 py-2">
+                  <Link
+                    href="/blog"
+                    className={cn(
+                      'flex flex-1 items-center gap-3 text-sm rounded-md text-muted-foreground hover:bg-muted hover:text-foreground transition',
+                      isBlogActive && 'text-foreground font-medium'
+                    )}
+                  >
+                    <BookOpen className="h-4 w-4" />
+                    <span>Blog</span>
+                  </Link>
+                  <AccordionTrigger className="p-2 ml-2 rounded-md hover:bg-muted transition [&>svg]:size-4" />
+                </div>
+                <AccordionContent className="pl-6 pr-2 py-3 space-y-4">
+                  {CATEGORIES.map((category) => renderCategoryNode(category))}
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
+
+          )
+        )}
+      </nav>
+    </aside>
+  );
+}

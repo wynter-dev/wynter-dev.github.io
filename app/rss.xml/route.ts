@@ -1,4 +1,4 @@
-import { getAllPosts } from "@/lib/mdx";
+import { getAllPosts } from "@/utils/mdx";
 
 export const runtime = "nodejs";
 

@@ -1,8 +1,6 @@
-// src/app/blog/page.tsx
-import Link from 'next/link';
-import { getAllPosts } from '@/lib/mdx';
-import { ArrowRight, Calendar, Tag } from 'lucide-react';
+import {getAllPosts} from '@/utils/mdx';
 import AdBanner from '@/components/ad/AdBanner';
+import PostCard from '@/components/blog/PostCard';
 
 export const metadata = {
   title: 'Blog | Wynter.log',
@@ -29,51 +27,13 @@ export default async function BlogListPage() {
         )}
 
         {posts.map((post) => (
-          <Link
+          <PostCard
             key={post.slug}
-            href={`/blog/${post.slug}`}
-            className="
-              group block border rounded-xl p-6
-              transition hover:bg-muted/40
-            "
-          >
-            {/* Title */}
-            <h2 className="text-xl font-medium tracking-tight">
-              {post.title}
-            </h2>
-
-            {/* Description */}
-            <p className="text-sm text-muted-foreground mt-1 line-clamp-2">
-              {post.description}
-            </p>
-
-            {/* Meta */}
-            <div className="flex items-center gap-4 mt-4 text-xs text-muted-foreground">
-              <div className="flex items-center gap-1">
-                <Calendar className="h-3.5 w-3.5"/>
-                {post.date}
-              </div>
-
-              {post.tags?.length > 0 && (
-                <div className="flex items-center gap-1">
-                  <Tag className="h-3.5 w-3.5"/>
-                  {post.tags.join(', ')}
-                </div>
-              )}
-            </div>
-
-            {/* Read More */}
-            <div className="flex items-center text-primary text-sm mt-4">
-              자세히 보기
-              <ArrowRight className="
-                h-4 w-4 ml-1
-                transition-transform group-hover:translate-x-1
-              "/>
-            </div>
-          </Link>
+            {...post}
+          />
         ))}
       </section>
-      <AdBanner adSlot="1234567890" className="mt-10"/>
+      <AdBanner adSlot="1234567890" className="mt-10" />
     </main>
   );
 }
