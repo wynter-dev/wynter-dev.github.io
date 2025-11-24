@@ -1,17 +1,16 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { cn } from '@/lib/utils';
-import { Menu, Moon, Sun } from 'lucide-react';
-import { useTheme } from 'next-themes';
-import { startTransition, useEffect, useState } from 'react';
-import { Github, Mail, PencilLine } from 'lucide-react';
-import { CATEGORIES } from '@/constants/categories';
+import {usePathname} from 'next/navigation';
+import {cn} from '@/lib/utils';
+import {Github, Mail, Menu, Moon, PencilLine, Sun} from 'lucide-react';
+import {useTheme} from 'next-themes';
+import {startTransition, useEffect, useState} from 'react';
+import {CATEGORIES} from '@/constants/categories';
 
 export function MainHeader() {
   const pathname = usePathname();
-  const { resolvedTheme, setTheme } = useTheme();
+  const {resolvedTheme, setTheme} = useTheme();
   const [open, setOpen] = useState(false);
   const [mobileBlogOpen, setMobileBlogOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -23,9 +22,9 @@ export function MainHeader() {
   }, []);
 
   const navItems = [
-    { href: '/', label: 'Home' },
-    { href: '/blog', label: 'Blog' },
-    { href: '/about', label: 'About' },
+    {href: '/', label: 'Home'},
+    {href: '/blog', label: 'Blog'},
+    {href: '/about', label: 'About'},
   ];
 
   const toggleTheme = () => {
@@ -66,7 +65,8 @@ export function MainHeader() {
                   </Link>
 
                   {/* 드롭다운 */}
-                  <div className="absolute left-0 mt-3 hidden group-hover:block bg-popover border rounded-md shadow-lg p-4 w-60 z-50">
+                  <div
+                    className="absolute left-0 top-full bg-popover border rounded-md shadow-lg p-4 w-60 z-50 hidden group-hover:block">
                     {CATEGORIES.map((cat) => (
                       <div key={cat.value} className="mb-4 last:mb-0">
                         {/* Parent Category */}

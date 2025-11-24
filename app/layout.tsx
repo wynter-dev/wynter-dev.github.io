@@ -7,22 +7,22 @@ import {MainHeader} from '@/components/layout/main-header';
 import {MainFooter} from '@/components/layout/main-footer';
 import {Sidebar} from '@/components/layout/sidebar';
 import {Geist_Mono} from 'next/font/google';
-import localFont from "next/font/local";
+import localFont from 'next/font/local';
 
 const pretendard = localFont({
   src: [
-    {path: "../public/fonts/pretendard/Pretendard-Thin.woff2", weight: "100", style: "normal"},
-    {path: "../public/fonts/pretendard/Pretendard-ExtraLight.woff2", weight: "200", style: "normal"},
-    {path: "../public/fonts/pretendard/Pretendard-Light.woff2", weight: "300", style: "normal"},
-    {path: "../public/fonts/pretendard/Pretendard-Regular.woff2", weight: "400", style: "normal"},
-    {path: "../public/fonts/pretendard/Pretendard-Medium.woff2", weight: "500", style: "normal"},
-    {path: "../public/fonts/pretendard/Pretendard-SemiBold.woff2", weight: "600", style: "normal"},
-    {path: "../public/fonts/pretendard/Pretendard-Bold.woff2", weight: "700", style: "normal"},
-    {path: "../public/fonts/pretendard/Pretendard-ExtraBold.woff2", weight: "800", style: "normal"},
-    {path: "../public/fonts/pretendard/Pretendard-Black.woff2", weight: "900", style: "normal"},
+    {path: '../public/fonts/pretendard/Pretendard-Thin.woff2', weight: '100', style: 'normal'},
+    {path: '../public/fonts/pretendard/Pretendard-ExtraLight.woff2', weight: '200', style: 'normal'},
+    {path: '../public/fonts/pretendard/Pretendard-Light.woff2', weight: '300', style: 'normal'},
+    {path: '../public/fonts/pretendard/Pretendard-Regular.woff2', weight: '400', style: 'normal'},
+    {path: '../public/fonts/pretendard/Pretendard-Medium.woff2', weight: '500', style: 'normal'},
+    {path: '../public/fonts/pretendard/Pretendard-SemiBold.woff2', weight: '600', style: 'normal'},
+    {path: '../public/fonts/pretendard/Pretendard-Bold.woff2', weight: '700', style: 'normal'},
+    {path: '../public/fonts/pretendard/Pretendard-ExtraBold.woff2', weight: '800', style: 'normal'},
+    {path: '../public/fonts/pretendard/Pretendard-Black.woff2', weight: '900', style: 'normal'},
   ],
-  variable: "--font-pretendard",
-  display: "swap",
+  variable: '--font-pretendard',
+  display: 'swap',
 });
 const geistMono = Geist_Mono({variable: '--font-geist-mono', subsets: ['latin']});
 
@@ -39,7 +39,7 @@ export default function RootLayout({children}: { children: React.ReactNode }) {
     </head>
     <body
       className={cn(
-        'min-h-screen bg-background text-foreground antialiased font-sans',
+        'h-screen flex flex-col bg-background text-foreground antialiased font-sans',
         pretendard.variable,
         geistMono.variable
       )}
@@ -53,13 +53,16 @@ export default function RootLayout({children}: { children: React.ReactNode }) {
       strategy="afterInteractive"
     />
 
-    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+    <ThemeProvider attribute="class" defaultTheme="system" enableSystem enableColorScheme={false}>
       <div className="relative mx-auto w-full max-w-[1024px] px-4">
         <MainHeader />
-        <Sidebar />
-        <main className="min-h-[90vh] py-12 md:pl-56">
-          {children}
-        </main>
+        <div className="flex flex-1 mx-auto w-full max-w-[1024px] px-4">
+          <Sidebar />
+          <main className="flex-1 relative overflow-y-auto py-12 md:pl-56">
+            {children}
+          </main>
+        </div>
+
         <MainFooter />
       </div>
     </ThemeProvider>
