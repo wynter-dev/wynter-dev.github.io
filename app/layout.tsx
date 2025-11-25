@@ -63,6 +63,7 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
     <html lang="ko" suppressHydrationWarning>
     <head>
       <meta name="google-adsense-account" content="ca-pub-6689558343928586"/>
+      <meta name="google-site-verification" content="3gdlBQNXxTs-lTdAFrssx1fETbB3w90C4WmlMooIM_o" />
     </head>
     <body
       className={cn(
