@@ -1,9 +1,12 @@
 import SkillList from "@/components/about/SkillList";
 import CareerCard from "@/components/about/CareerCard";
+import { Metadata } from 'next';
 
-export const metadata = {
-  title: 'About | Wynter.log',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: 'About | Wynter.log',
+  };
+}
 
 export default function AboutPage() {
   return (

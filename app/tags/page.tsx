@@ -1,9 +1,12 @@
 import { getAllTags } from "@/utils/mdx";
 import NoPrefetchLink from '@/components/NoPrefetchLink';
+import { Metadata } from 'next';
 
-export const metadata = {
-  title: "Tags | Wynter.log",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: 'Tags | Wynter.log',
+  };
+}
 
 export default async function TagsPage() {
   const tags = await getAllTags();

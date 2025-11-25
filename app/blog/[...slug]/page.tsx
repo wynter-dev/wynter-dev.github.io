@@ -1,4 +1,3 @@
-import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { Calendar, Tag } from 'lucide-react';
 import { getPostBySlug } from '@/utils/mdx';
