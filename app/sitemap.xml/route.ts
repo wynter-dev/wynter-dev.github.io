@@ -8,7 +8,7 @@ function isValidDate(date: string | number | Date) {
 }
 
 export async function GET() {
-  const siteUrl = process.env.HOST_DOMAIN;
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
   const {posts} = await getAllPostsPaginated(1, 999999);
 
   const postUrls = posts

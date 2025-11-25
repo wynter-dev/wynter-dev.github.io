@@ -5,7 +5,7 @@ export const runtime = 'nodejs';
 export async function GET() {
   const {posts} = await getAllPostsPaginated(1, 999999);
 
-  const siteUrl = process.env.HOST_DOMAIN;
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
   const updated = posts[0]?.date ?? new Date().toISOString();
 
   const items = posts

@@ -1,4 +1,3 @@
-import { Metadata } from 'next';
 import { getAllPostsPaginated } from '@/utils/mdx';
 import PostCard from '@/components/blog/PostCard';
 import PageSizeSelect from '@/components/pagination/PageSizeSelect';
