@@ -55,12 +55,12 @@ export default function NewBlogPostPage() {
       depth3: depth3 || null,
     });
 
-    setLoading(false);
-
-    const fullPath = [depth1, depth2, depth3].filter(Boolean);
-    const categoryUrl = `/blog/category/${fullPath.join('/')}`;
-
-    router.push(`${categoryUrl}/${res.slug}`);
+    setTimeout(()=>{
+      const fullPath = [depth1, depth2, depth3].filter(Boolean);
+      const categoryUrl = `/blog/category/${fullPath.join('/')}`;
+      setLoading(false);
+      router.push(`${categoryUrl}/${res.slug}`);
+    }, 2000)
   }
 
   return (

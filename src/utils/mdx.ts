@@ -177,7 +177,7 @@ export async function getAllPostsPaginated(
 export async function getPostsByCategoryPaginated(
   fullPath: string[],
   page = 1,
-  pageSize = 30
+  pageSize = 10
 ) {
   const dir = path.join(POSTS_ROOT, ...fullPath);
   if (!fs.existsSync(dir)) return { posts: [], total: 0, totalPages: 0 };
