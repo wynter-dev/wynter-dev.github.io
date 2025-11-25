@@ -6,68 +6,6 @@ import { getCategoryPairs } from '@/utils/category';
 import NoPrefetchLink from '@/components/NoPrefetchLink';
 import BackButton from '@/components/blog/BackButton';
 
-const DEFAULT_SITE_URL = 'http://localhost:3000';
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || DEFAULT_SITE_URL;
-
-const metadataBase = new URL(baseUrl);
-
-export async function generateMetadata({params}: {params: {slug: string[]}}): Promise<Metadata> {
-  const resolved = await params;
-  const slugArray = resolved.slug;
-  const slug = slugArray?.at(-1);
-  if(!slug) return {};
-
-  const post = await getPostBySlug(slug);
-  if(!post) return {};
-
-  const {meta} = post;
-
-  const title = meta.title;
-  const description = meta.description || '';
-
-  const categoryPath = [meta.depth1, meta.depth2, meta.depth3]
-    .filter(Boolean)
-    .join(' / ');
-
-  const fullPath = slugArray.join('/');
-  const url = `${baseUrl}/blog/${fullPath}`;
-  const ogImage = `${baseUrl}/blog/opengraph-image`;
-
-  return {
-    title,
-    description,
-    metadataBase,
-    alternates: {
-      canonical: url,
-    },
-    openGraph: {
-      title,
-      description,
-      url,
-      type: 'article',
-      locale: 'ko_KR',
-      siteName: 'Wynter Blog',
-      section: categoryPath || undefined,
-      tags: meta.tags || [],
-      publishedTime: meta.date || undefined,
-      images: [
-        {
-          url: ogImage,
-          width: 1200,
-          height: 630,
-          alt: title,
-        },
-      ],
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title,
-      description,
-      images: [ogImage],
-    },
-  };
-}
-
 export default async function BlogPostPage({params}: {params: {slug: string[]}}) {
   const resolved = await params;
   const slugArray = resolved.slug;
