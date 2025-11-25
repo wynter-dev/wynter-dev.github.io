@@ -15,8 +15,6 @@ interface BlogListPageProps {
 
 export default async function BlogListPage(props: BlogListPageProps) {
   const resolved = await props.searchParams;
-  console.log(resolved?.pageSize);
-
   const pageSize = Number(resolved?.pageSize ?? 10);
   const {posts} = await getAllPostsPaginated(1, pageSize);
 

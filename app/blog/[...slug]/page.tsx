@@ -1,20 +1,77 @@
-import {notFound} from 'next/navigation';
-import {Calendar, Tag} from 'lucide-react';
+import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
+import { Calendar, Tag } from 'lucide-react';
 
 import '@/styles/markdown.css';
-import {getPostBySlug} from '@/utils/mdx';
+import { getPostBySlug } from '@/utils/mdx';
 import BackButton from '@/components/blog/BackButton';
-import {getCategoryPairs} from '@/utils/category';
+import { getCategoryPairs } from '@/utils/category';
 import NoPrefetchLink from '@/components/NoPrefetchLink';
 
-export default async function BlogPostPage({params}: { params: { slug: string[] } }) {
+
+export async function generateMetadata({params}: {params: {slug: string[]}}): Promise<Metadata> {
+  const slugArr = params.slug;
+  const slug = slugArr?.at(-1);
+  if(!slug) return {};
+
+  const post = await getPostBySlug(slug);
+  if(!post) return {};
+
+  const {meta} = post;
+
+  const title = meta.title;
+  const description = meta.description || ''; // excerpt 제거됨
+
+  const categoryPath = [meta.depth1, meta.depth2, meta.depth3]
+    .filter(Boolean)
+    .join(' / ');
+
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL;
+  const url = `${baseUrl}/blog/${slug}`;
+  const ogImage = `${baseUrl}/api/og/${slug}`;
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: url,
+    },
+    openGraph: {
+      title,
+      description,
+      url,
+      type: 'article',
+      locale: 'ko_KR',
+      siteName: 'Wynter Blog',
+      section: categoryPath || undefined,
+      tags: meta.tags || [],
+      publishedTime: meta.date || undefined,
+      images: [
+        {
+          url: ogImage,
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [ogImage],
+    },
+  };
+}
+
+export default async function BlogPostPage({params}: {params: {slug: string[]}}) {
   const resolved = await params;
   const slugArray = resolved.slug;
   const slug = slugArray.at(-1);
-  if (!slug) return notFound();
+  if(!slug) return notFound();
 
   const post = await getPostBySlug(slug);
-  if (!post) return notFound();
+  if(!post) return notFound();
 
   const {meta, content} = post;
 
@@ -50,13 +107,13 @@ export default async function BlogPostPage({params}: { params: { slug: string[] 
         {/* 메타 정보 */}
         <div className="flex items-center gap-6 text-sm text-muted-foreground">
           <span className="flex items-center gap-1">
-            <Calendar className="h-4 w-4" />
+            <Calendar className="h-4 w-4"/>
             {meta.date}
           </span>
 
           {meta.tags?.length > 0 && (
             <span className="flex items-center gap-1">
-              <Tag className="h-4 w-4" />
+              <Tag className="h-4 w-4"/>
               {meta.tags.join(', ')}
             </span>
           )}
@@ -66,7 +123,7 @@ export default async function BlogPostPage({params}: { params: { slug: string[] 
 
         {/* Footer */}
         <section className="pt-4 border-t flex text-sm">
-          <BackButton />
+          <BackButton/>
         </section>
       </div>
     </main>

@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { compileMDX } from 'next-mdx-remote/rsc';
 import { notFound } from 'next/navigation';
+import { cache } from 'react';
 
 import AdBanner from '@/components/ad/AdBanner';
 
@@ -38,7 +39,7 @@ export const MARKDOWN_EXTENSIONS = [
  * 공통 slug 디코딩 유틸
  * ------------------------------------------- */
 export function decodeSlug(value: string | null | undefined): string {
-  if (!value) return "";
+  if(!value) return '';
   try {
     return decodeURIComponent(value);
   } catch {
@@ -55,8 +56,8 @@ export const isMarkdownFile = (filename: string) =>
 export const stripMarkdownExtension = (filename: string) => {
   const decoded = decodeSlug(filename);
 
-  for (const ext of MARKDOWN_EXTENSIONS) {
-    if (decoded.endsWith(ext)) return decoded.slice(0, -ext.length);
+  for(const ext of MARKDOWN_EXTENSIONS) {
+    if(decoded.endsWith(ext)) return decoded.slice(0, -ext.length);
   }
 
   return decoded;
@@ -80,23 +81,23 @@ export function extractDepthFromPath(filePath: string) {
  * 재귀 탐색 (slug 검색용)
  * ------------------------------------------- */
 export function getAllMarkdownFilesRecursively(dir: string): string[] {
-  if (!fs.existsSync(dir)) return [];
+  if(!fs.existsSync(dir)) return [];
 
   return fs.readdirSync(dir).flatMap((item) => {
     const full = path.join(dir, item);
     const stat = fs.statSync(full);
 
-    if (stat.isDirectory()) return getAllMarkdownFilesRecursively(full);
-    if (isMarkdownFile(item)) return full;
+    if(stat.isDirectory()) return getAllMarkdownFilesRecursively(full);
+    if(isMarkdownFile(item)) return full;
 
     return [];
   });
 }
 
 /* ---------------------------------------------
- * 단일 파일 로드
+ * 단일 파일 로드 (캐싱 적용)
  * ------------------------------------------- */
-export async function loadMarkdownFile(filePath: string) {
+export const loadMarkdownFile = cache(async(filePath: string) => {
   const raw = fs.readFileSync(filePath, 'utf8');
   const filename = path.basename(filePath);
 
@@ -105,10 +106,10 @@ export async function loadMarkdownFile(filePath: string) {
 
   const depthInfo = extractDepthFromPath(filePath);
 
-  const { content, frontmatter } = await compileMDX<PostMeta>({
+  const {content, frontmatter} = await compileMDX<PostMeta>({
     source: raw,
     components: mdxComponents,
-    options: { parseFrontmatter: true },
+    options: {parseFrontmatter: true},
   });
 
   return {
@@ -124,7 +125,7 @@ export async function loadMarkdownFile(filePath: string) {
     },
     content,
   };
-}
+});
 
 /* ---------------------------------------------
  * 공통 pagination 로직
@@ -132,7 +133,7 @@ export async function loadMarkdownFile(filePath: string) {
 async function paginateFiles(
   files: string[],
   page: number,
-  pageSize: number
+  pageSize: number,
 ): Promise<PostListResult> {
   const items = files.map((file) => {
     const stat = fs.statSync(file);
@@ -165,7 +166,7 @@ async function paginateFiles(
  * ------------------------------------------- */
 export async function getAllPostsPaginated(
   page = 1,
-  pageSize = 30
+  pageSize = 30,
 ): Promise<PostListResult> {
   const files = getAllMarkdownFilesRecursively(POSTS_ROOT);
   return paginateFiles(files, page, pageSize);
@@ -177,29 +178,29 @@ export async function getAllPostsPaginated(
 export async function getPostsByCategoryPaginated(
   fullPath: string[],
   page = 1,
-  pageSize = 10
+  pageSize = 10,
 ) {
   const dir = path.join(POSTS_ROOT, ...fullPath);
-  if (!fs.existsSync(dir)) return { posts: [], total: 0, totalPages: 0 };
+  if(!fs.existsSync(dir)) return {posts: [], total: 0, totalPages: 0};
 
   const files = getAllMarkdownFilesRecursively(dir);
   return paginateFiles(files, page, pageSize);
 }
 
 /* ---------------------------------------------
- * 단일 포스트
+ * 단일 포스트 (캐싱 적용)
  * ------------------------------------------- */
-export async function getPostBySlug(slug: string) {
+export const getPostBySlug = cache(async(slug: string) => {
   const all = getAllMarkdownFilesRecursively(POSTS_ROOT);
   const target = decodeSlug(slug);
 
   const match = all.find((f) =>
-    MARKDOWN_EXTENSIONS.some((ext) => f.endsWith(`${target}${ext}`))
+    MARKDOWN_EXTENSIONS.some((ext) => f.endsWith(`${target}${ext}`)),
   );
 
-  if (!match) notFound();
+  if(!match) notFound();
   return loadMarkdownFile(match);
-}
+});
 
 /* ---------------------------------------------
  * 단일 메타
@@ -209,10 +210,10 @@ export async function getPostMetaBySlug(slug: string) {
   const target = decodeSlug(slug);
 
   const match = all.find((f) =>
-    MARKDOWN_EXTENSIONS.some((ext) => f.endsWith(`${target}${ext}`))
+    MARKDOWN_EXTENSIONS.some((ext) => f.endsWith(`${target}${ext}`)),
   );
 
-  if (!match) return null;
+  if(!match) return null;
 
   return (await loadMarkdownFile(match)).meta;
 }
@@ -221,20 +222,20 @@ export async function getPostMetaBySlug(slug: string) {
  * 태그 목록
  * ------------------------------------------- */
 export async function getAllTags() {
-  const { posts } = await getAllPostsPaginated(1, 999999);
+  const {posts} = await getAllPostsPaginated(1, 999999);
 
   const map: Record<string, number> = {};
   posts.forEach((p) =>
     p.tags?.forEach((t) => {
       const clean = t.trim();
-      if (!clean) return;
+      if(!clean) return;
       map[clean] = (map[clean] || 0) + 1;
-    })
+    }),
   );
 
   return Object.entries(map)
-    .map(([tag, count]) => ({ tag, count }))
-    .sort((a, b) => a.tag.localeCompare(b.tag));
+               .map(([tag, count]) => ({tag, count}))
+               .sort((a, b) => a.tag.localeCompare(b.tag));
 }
 
-const mdxComponents = { AdBanner };
+const mdxComponents = {AdBanner};
