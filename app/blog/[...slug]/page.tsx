@@ -31,7 +31,7 @@ export async function generateMetadata({params}: {params: {slug: string[]}}): Pr
 
   const fullPath = slugArray.join('/');
   const url = `${baseUrl}/blog/${fullPath}`;
-  const ogImage = `${baseUrl}/blog/${fullPath}/opengraph-image`;
+  const ogImage = `${baseUrl}/blog/opengraph-image`;
 
   return {
     title,
