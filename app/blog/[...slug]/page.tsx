@@ -3,9 +3,9 @@ import Link from 'next/link';
 import {Calendar, Tag} from 'lucide-react';
 
 import '@/styles/markdown.css';
-
 import {getPostBySlug} from '@/utils/mdx';
 import BackButton from '@/components/blog/BackButton';
+import {getCategoryPairs} from '@/utils/category';
 
 export default async function BlogPostPage({params}: { params: { slug: string[] } }) {
   const resolved = await params;
@@ -19,14 +19,36 @@ export default async function BlogPostPage({params}: { params: { slug: string[] 
   const {meta, content} = post;
 
   const fullPath = [meta.depth1, meta.depth2, meta.depth3].filter(Boolean);
+  const pairs = getCategoryPairs(fullPath);
   const hasCategory = fullPath.length > 0;
 
   return (
-    <main className="flex flex-col">
-      <section className="flex items-start justify-between mb-5">
-        <h1 className="text-3xl font-bold tracking-tight">{meta.title}</h1>
-
-        <div className="flex items-center gap-4 text-sm text-muted-foreground">
+    <main className="flex flex-1">
+      <div className="w-full max-w-3xl">
+        {/* 제목 */}
+        <h1 className="text-4xl font-bold tracking-tight mb-4">
+          {meta.title}
+        </h1>
+        {/* Category Breadcrumb */}
+        {hasCategory && (
+          <div className="text-sm text-foreground mb-4">
+            {pairs.map((c, i) => (
+              <div key={c.value}>
+                <Link
+                  href={`/blog/category/${pairs
+                    .slice(0, i + 1)
+                    .map((p) => p.value)
+                    .join('/')}`}
+                  className="px-2 py-0.5 rounded-md bg-zinc-100 text-zinc-700 hover:bg-zinc-200
+                            transition-colors text-[13px] font-medium">
+                  {c.name}
+                </Link>
+              </div>
+            ))}
+          </div>
+        )}
+        {/* 메타 정보 */}
+        <div className="flex items-center gap-6 text-sm text-muted-foreground">
           <span className="flex items-center gap-1">
             <Calendar className="h-4 w-4" />
             {meta.date}
@@ -39,28 +61,14 @@ export default async function BlogPostPage({params}: { params: { slug: string[] 
             </span>
           )}
         </div>
+        {/* 본문 */}
+        <article className="markdown-body mb-12">{content}</article>
 
-        {/* 카테고리 Breadcrumb */}
-        {hasCategory && (
-          <div className="text-xs text-muted-foreground">
-            {fullPath.map((p, i) => (
-              <span key={p}>
-                <Link
-                  className="hover:underline underline-offset-4"
-                  href={`/blog/category/${fullPath.slice(0, i + 1).join('/')}`}
-                >
-                  {p}
-                </Link>
-                {i < fullPath.length - 1 && ' / '}
-              </span>
-            ))}
-          </div>
-        )}
-      </section>
-      <article className="markdown-body">{content}</article>
-      <section className="pt-10 border-t flex justify-between text-sm">
-        <BackButton />
-      </section>
+        {/* Footer */}
+        <section className="pt-4 border-t flex text-sm">
+          <BackButton />
+        </section>
+      </div>
     </main>
   );
 }

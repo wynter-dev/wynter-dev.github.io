@@ -52,3 +52,19 @@ export function findCategoryByPath(
   }
   return null;
 }
+
+export function getCategoryPairs(fullPath: string[]) {
+  const node = findCategoryByPath(CATEGORIES, fullPath);
+
+  if (!node) {
+    return fullPath.map((value) => ({
+      value,
+      name: value,
+    }));
+  }
+
+  return node.fullPath.map((value, i) => ({
+    value,
+    name: node.fullPathName[i],
+  }));
+}
