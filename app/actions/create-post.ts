@@ -79,11 +79,7 @@ ${content}
       sha = existingFile.data.sha;
     }
   } catch (err) {
-    if (err instanceof RequestError) {
-      if (err.status !== 404) throw err;
-    } else {
-      throw err;
-    }
+    console.log(err);
   }
 
   // GitHub 에 폴더 없으면 자동 생성되지 않으므로 createOrUpdate 호출로 해결됨
