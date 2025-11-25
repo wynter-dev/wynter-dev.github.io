@@ -16,7 +16,7 @@ export default async function CategoryPage(props: CategoryPageProps) {
   const searchParams = await resolved.searchParams;
 
   const categoryPath = params.category;
-  const pageSize = Number(searchParams?.pageSize ?? 0);
+  const pageSize = Number(searchParams?.pageSize ?? 10);
 
   const category = findCategoryByPath(CATEGORIES, categoryPath);
   if (!category) return notFound();
