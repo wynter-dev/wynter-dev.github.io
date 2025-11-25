@@ -4,6 +4,7 @@ import { getPostBySlug } from '@/utils/mdx';
 import { getCategoryPairs } from '@/utils/category';
 import NoPrefetchLink from '@/components/NoPrefetchLink';
 import BackButton from '@/components/blog/BackButton';
+import '@/styles/markdown.css';
 
 export default async function BlogPostPage({params}: {params: {slug: string[]}}) {
   const resolved = await params;
@@ -23,11 +24,7 @@ export default async function BlogPostPage({params}: {params: {slug: string[]}})
   return (
     <main className="flex flex-1">
       <div className="w-full max-w-3xl">
-        {/* 제목 */}
-        <h1 className="text-4xl font-bold tracking-tight mb-4">
-          {meta.title}
-        </h1>
-        {/* Category Breadcrumb */}
+        <h1 className="text-4xl font-bold tracking-tight mb-4">{meta.title}</h1>
         {hasCategory && (
           <div className="flex items-center gap-1 flex-wrap mb-4">
             {pairs.map((c, i) => (
@@ -45,13 +42,11 @@ export default async function BlogPostPage({params}: {params: {slug: string[]}})
             ))}
           </div>
         )}
-        {/* 메타 정보 */}
         <div className="flex items-center gap-6 text-sm text-muted-foreground">
           <span className="flex items-center gap-1">
             <Calendar className="h-4 w-4"/>
             {meta.date}
           </span>
-
           {meta.tags?.length > 0 && (
             <span className="flex items-center gap-1">
               <Tag className="h-4 w-4"/>
@@ -59,11 +54,8 @@ export default async function BlogPostPage({params}: {params: {slug: string[]}})
             </span>
           )}
         </div>
-        {/* 본문 */}
-        <article className="markdown-body mb-12">{content}</article>
-
-        {/* Footer */}
-        <section className="pt-4 border-t flex text-sm">
+        <article className="markdown-body my-6">{content}</article>
+        <section className="pt-4 border-t flex text-sm mb-20">
           <BackButton/>
         </section>
       </div>
