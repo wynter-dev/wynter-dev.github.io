@@ -6,7 +6,7 @@ export default async function HomePage() {
   const { posts } = await getAllPostsPaginated(1, 3);
 
   return (
-    <main className="flex flex-col items-center px-6 py-20">
+    <main className="flex flex-col items-center px-3 py-10">
       {/* Hero */}
       <section className="text-center space-y-7 max-w-3xl">
         <div className="inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-xs font-medium text-muted-foreground bg-muted/50 backdrop-blur-sm">
