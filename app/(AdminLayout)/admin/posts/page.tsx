@@ -5,7 +5,7 @@ export default async function AdminPostsPage() {
   const {posts} = await getAllPostsPaginated(1, 9999);
 
   return (
-    <div className="p-8 max-w-6xl">
+    <div className="flex flex-col max-w-5xl">
       <h1 className="text-2xl font-semibold mb-6">블로그 글 목록</h1>
 
       <div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
