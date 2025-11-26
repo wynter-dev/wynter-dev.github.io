@@ -57,7 +57,7 @@ export default async function BlogPostPage({params}: {params: {slug: string[]}})
         </div>
         <article className="markdown-body my-6">{content}</article>
         <Comments/>
-        <section className="pt-4 border-t flex text-sm mb-20">
+        <section className="pt-4 flex text-sm mb-20">
           <BackButton/>
         </section>
       </div>
