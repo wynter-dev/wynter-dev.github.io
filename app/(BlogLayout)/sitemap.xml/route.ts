@@ -1,5 +1,6 @@
 import { getAllPostsPaginated } from '@/utils/mdx';
 export const runtime = 'nodejs';
+export const dynamic = 'force-static';
 
 function isValidDate(date: string | number | Date) {
   return !isNaN(new Date(date).getTime());
