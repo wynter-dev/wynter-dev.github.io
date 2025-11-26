@@ -1,2 +1,0 @@
-Sitemap: https://wynter-dev.vercel.app/sitemap.xml
-Feed: https://wynter-dev.vercel.app/rss.xml
