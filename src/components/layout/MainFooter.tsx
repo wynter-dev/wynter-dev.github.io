@@ -18,7 +18,7 @@ export function MainFooter() {
       <p className="text-xs">Built with Next.js · TailwindCSS · shadcn/ui</p>
 
       <NoPrefetchLink
-        href="https://github.com/wynter-dev"
+        href="https://github.com/wynter-dev/wynter-dev"
         className="text-xs underline hover:text-foreground transition"
         target="_blank"
       >
