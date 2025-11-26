@@ -52,7 +52,7 @@ export default function BlogLayout({children}: { children: ReactNode }) {
           <MainHeader />
           <div className="flex flex-1 mx-auto w-full max-w-screen-2xl px-4">
             <Sidebar />
-            <main className="flex-1 relative overflow-y-auto py-12 md:pl-10">
+            <main className="flex-1 relative max-w-screen-lg overflow-y-auto py-12 md:px-10">
               {children}
             </main>
           </div>

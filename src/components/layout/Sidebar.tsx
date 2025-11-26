@@ -23,10 +23,10 @@ export function Sidebar() {
 
     const depthStyle =
       depth === 1
-        ? 'pl-0 text-sm font-semibold'
+        ? 'pl-0 text-md font-semibold text-foreground'
         : depth === 2
-          ? 'pl-4 text-sm font-medium'
-          : 'pl-8 text-xs font-normal';
+          ? 'pl-4 text-sm font-medium text-muted-foreground'
+          : 'pl-8 text-sm font-normal text-muted-foreground/80';
 
     const hasChildren = Array.isArray(node.children) && node.children.length > 0;
 
@@ -85,7 +85,7 @@ export function Sidebar() {
               className="w-full"
             >
               <AccordionItem value="blog">
-                <div className="flex items-center rounded-md hover:bg-muted transition px-3 py-2">
+                <div className="flex items-center rounded-md hover:bg-muted transition px-3 py-1">
                   <NoPrefetchLink
                     href="/blog"
                     className={cn(
@@ -98,7 +98,7 @@ export function Sidebar() {
                   </NoPrefetchLink>
                   <AccordionTrigger className="p-2 ml-2 rounded-md hover:bg-muted transition [&>svg]:size-4" />
                 </div>
-                <AccordionContent className="pl-6 pr-2 py-3 space-y-4">
+                <AccordionContent className="pl-4 py-1 space-y-4">
                   {CATEGORIES.map((category) => renderCategoryNode(category))}
                 </AccordionContent>
               </AccordionItem>
