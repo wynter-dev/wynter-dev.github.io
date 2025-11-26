@@ -4,7 +4,7 @@ import EditPost from '@/components/admin/post/edit/EditPost';
 export default async function EditPostPage({params}: { params: { slug: string } }) {
   const resolved = await params;
   const slug = resolved.slug;
-  const {raw, meta} = await getPostBySlug(slug);
+  const {body, meta} = await getPostBySlug(slug);
 
   const title = meta.title;
   const tags = meta.tags ?? [];
@@ -16,7 +16,7 @@ export default async function EditPostPage({params}: { params: { slug: string } 
       <EditPost
         slug={slug}
         initialTitle={title}
-        initialContent={raw}
+        initialContent={body}
         initialTags={tags.join(', ')}
         initialCategoryPath={categoryPath}
       />

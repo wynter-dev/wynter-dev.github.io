@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, FormEvent } from 'react';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
 import { Loader2 } from 'lucide-react';
@@ -9,15 +9,15 @@ import { Button } from '@/components/ui/button';
 import { useTheme } from 'next-themes';
 import { cn } from '@/lib/utils';
 
-const MDEditor = dynamic(() => import('@uiw/react-md-editor'), { ssr: false });
+const MDEditor = dynamic(() => import('@uiw/react-md-editor'), {ssr: false});
 
 export default function EditPost({
-                                         slug,
-                                         initialTitle,
-                                         initialContent,
-                                         initialTags,
-                                         initialCategoryPath,
-                                       }: {
+                                   slug,
+                                   initialTitle,
+                                   initialContent,
+                                   initialTags,
+                                   initialCategoryPath,
+                                 }: {
   slug: string;
   initialTitle: string;
   initialContent: string;
@@ -25,7 +25,7 @@ export default function EditPost({
   initialCategoryPath: string[];
 }) {
   const router = useRouter();
-  const { resolvedTheme } = useTheme();
+  const {resolvedTheme} = useTheme();
 
   const [mounted, setMounted] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -40,7 +40,7 @@ export default function EditPost({
 
   useEffect(() => setMounted(true), []);
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoading(true);
 
@@ -61,13 +61,13 @@ export default function EditPost({
 
     const res = await fetch(`/api/admin/post/edit/${slug}`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(payload),
     });
 
     setLoading(false);
 
-    if (!res.ok) {
+    if(!res.ok) {
       alert('저장 실패');
       return;
     }
@@ -89,7 +89,7 @@ export default function EditPost({
       </div>
 
       {/* Category */}
-      <CategorySelect value={categoryPath} onChange={setCategoryPath} />
+      <CategorySelect value={categoryPath} onChange={setCategoryPath}/>
 
       {/* Content */}
       <div
@@ -121,7 +121,7 @@ export default function EditPost({
         disabled={loading}
         className="inline-flex items-center bg-primary text-primary-foreground px-4 py-2 rounded-md hover:bg-primary/80"
       >
-        {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+        {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin"/>}
         저장하기
       </Button>
     </form>

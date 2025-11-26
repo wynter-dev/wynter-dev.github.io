@@ -26,9 +26,6 @@ export async function POST(req: Request) {
       return NextResponse.json({error: 'Missing required fields'}, {status: 400});
     }
 
-    // -----------------------------
-    // 1. SLUG 생성
-    // -----------------------------
     const slug = title
       .toLowerCase()
       .trim()
@@ -36,14 +33,8 @@ export async function POST(req: Request) {
       .replace(/\s+/g, '-')
       .replace(/-+/g, '-');
 
-    // -----------------------------
-    // 2. 요약 생성 (description)
-    // -----------------------------
     const descriptionText = summarize(content);
 
-    // -----------------------------
-    // 3. MDX 파일 구성
-    // -----------------------------
     const mdx = `---
 title: "${title}"
 description: "${descriptionText}"
@@ -59,9 +50,6 @@ ${content}
     const filePath = `src/content/posts/${categoryPath}/${slug}.mdx`;
     const localPath = path.join(process.cwd(), filePath);
 
-    // -----------------------------
-    // 4. 개발 환경: 로컬 파일 생성
-    // -----------------------------
     if (process.env.NODE_ENV === 'development') {
       fs.mkdirSync(path.dirname(localPath), {recursive: true});
       fs.writeFileSync(localPath, mdx, {encoding: 'utf8'});
@@ -69,9 +57,6 @@ ${content}
       return NextResponse.json({slug, categoryPath});
     }
 
-    // -----------------------------
-    // 5. 배포 환경: GitHub 업로드
-    // -----------------------------
     const token = process.env.GITHUB_TOKEN;
     const owner = process.env.GITHUB_OWNER;
     const repo = process.env.GITHUB_REPO;
@@ -86,7 +71,6 @@ ${content}
 
     const octokit = new Octokit({auth: token});
 
-    // 파일 sha 체크
     let sha: string | undefined = undefined;
 
     try {
@@ -101,10 +85,9 @@ ${content}
         sha = existingFile.data.sha;
       }
     } catch {
-      // 파일 없음 (sha undefined 유지)
+      sha = undefined;
     }
 
-    // 파일 업로드 / 업데이트
     await octokit.rest.repos.createOrUpdateFileContents({
       owner,
       repo,

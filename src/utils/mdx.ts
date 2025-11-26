@@ -112,6 +112,12 @@ export const loadMarkdownFile = cache(async(filePath: string) => {
     options: {parseFrontmatter: true},
   });
 
+
+  const frontmatterMatch = raw.match(/^---\s*([\s\S]*?)\s*---/);
+  const body = frontmatterMatch
+    ? raw.slice(frontmatterMatch[0].length).trimStart()
+    : raw;
+
   return {
     meta: {
       slug,
@@ -124,6 +130,7 @@ export const loadMarkdownFile = cache(async(filePath: string) => {
       depth3: decodeSlug(frontmatter.depth3 ?? depthInfo.depth3),
     },
     content,
+    body,
     raw,
   };
 });
