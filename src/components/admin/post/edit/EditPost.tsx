@@ -11,7 +11,7 @@ import { cn } from '@/lib/utils';
 
 const MDEditor = dynamic(() => import('@uiw/react-md-editor'), { ssr: false });
 
-export default function EditPostClient({
+export default function EditPost({
                                          slug,
                                          initialTitle,
                                          initialContent,
@@ -34,15 +34,11 @@ export default function EditPostClient({
   const [tags, setTags] = useState(initialTags); // comma-separated string
   const [content, setContent] = useState(initialContent);
 
-  // e.g. ["frontend", "react", "hooks"]
   const [categoryPath, setCategoryPath] = useState(initialCategoryPath);
 
-  // keep the original category for file path relocation
   const [originalCategoryPath] = useState(initialCategoryPath);
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  useEffect(() => setMounted(true), []);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -63,7 +59,7 @@ export default function EditPostClient({
       originalDepth3,
     };
 
-    const res = await fetch(`/api/admin/posts/edit/${slug}`, {
+    const res = await fetch(`/api/admin/post/edit/${slug}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),

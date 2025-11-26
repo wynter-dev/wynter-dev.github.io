@@ -24,13 +24,12 @@ export const RAW_CATEGORIES = [
         ]
       },
       {
-        "label": "인프라",
-        "value": "infra"
-      },
-      {
         "label": "백엔드",
         "value": "backend",
-        "children": []
+      },
+      {
+        "label": "인프라",
+        "value": "infra"
       },
       {
         "label": "기타",

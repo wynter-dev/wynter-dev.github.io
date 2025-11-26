@@ -5,11 +5,11 @@ import { Octokit } from 'octokit';
 import { summarize } from '@/utils/summarize';
 
 export async function POST(
-  req: Request,
-  {params}: {params: {slug: string}},
+  request: Request,
+  {params}: {params: Promise<{slug: string}>},
 ) {
   try {
-    const slug = params.slug;
+    const {slug} = await params;
 
     const {
       title,
@@ -31,7 +31,7 @@ export async function POST(
       originalDepth1: string
       originalDepth2?: string | null
       originalDepth3?: string | null
-    } = await req.json();
+    } = await request.json();
 
     if(!title || !content || !depth1) {
       return NextResponse.json(
