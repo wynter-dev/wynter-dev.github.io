@@ -4,7 +4,7 @@ import NoPrefetchLink from '@/components/NoPrefetchLink';
 export default async function TagsPage() {
   const tags = await getAllTags();
   return (
-    <main className="flex flex-col">
+    <div className="flex flex-col">
       <h1 className="text-3xl font-bold tracking-tight">Tags</h1>
       <section className="flex flex-wrap gap-3 pt-5">
         {tags.map(({tag, count}) => (
@@ -17,6 +17,6 @@ export default async function TagsPage() {
           </NoPrefetchLink>
         ))}
       </section>
-    </main>
+    </div>
   );
 }

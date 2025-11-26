@@ -14,7 +14,7 @@ export default async function BlogListPage(props: BlogListPageProps) {
   const {posts} = await getAllPostsPaginated(1, pageSize);
 
   return (
-    <main className="flex flex-col">
+    <div className="flex flex-col">
       <section className="flex items-start justify-between mb-5">
         <div className="space-y-3">
           <h1 className="text-3xl font-semibold tracking-tight">블로그</h1>
@@ -31,6 +31,6 @@ export default async function BlogListPage(props: BlogListPageProps) {
           <PostCard key={post.slug} {...post} />
         ))}
       </section>
-    </main>
+    </div>
   );
 }

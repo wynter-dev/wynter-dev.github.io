@@ -77,7 +77,7 @@ export default function NewBlogPostPage() {
 
 
   return (
-    <main className="flex flex-col max-w-5xl">
+    <div className="flex flex-col max-w-5xl">
       <h1 className="text-3xl font-semibold tracking-tight">새 글 작성</h1>
 
       <form onSubmit={handleSubmit} className="space-y-8 py-10 mb-20">
@@ -131,6 +131,6 @@ export default function NewBlogPostPage() {
           글 게시하기
         </Button>
       </form>
-    </main>
+    </div>
   );
 }

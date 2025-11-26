@@ -7,7 +7,7 @@ export function MainFooter() {
     <footer
       className="
         fixed bottom-0 left-1/2 -translate-x-1/2
-        w-full max-w-[1024px]
+        w-full max-w-5xl
         border-t bg-background
         px-4 py-6
         text-center text-sm text-muted-foreground

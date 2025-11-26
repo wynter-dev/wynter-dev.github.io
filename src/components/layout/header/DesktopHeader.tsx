@@ -100,7 +100,7 @@ function UtilityButtons() {
   return (
     <div className="hidden md:flex items-center gap-2 ml-2">
       <NoPrefetchLink
-        href="https://github.com/wynter-dev"
+        href="https://github.com/wynter-dev/wynter-dev"
         target="_blank"
         className="flex items-center gap-1 px-2 py-1 rounded-md border hover:bg-muted transition text-xs"
       >
@@ -112,13 +112,6 @@ function UtilityButtons() {
         className="flex items-center gap-1 px-2 py-1 rounded-md border hover:bg-muted transition text-xs"
       >
         <Mail className="h-3 w-3" /> Email
-      </NoPrefetchLink>
-
-      <NoPrefetchLink
-        href="/blog"
-        className="flex items-center gap-1 px-2 py-1 rounded-md border hover:bg-muted transition text-xs"
-      >
-        <PencilLine className="h-3 w-3" /> Blog
       </NoPrefetchLink>
     </div>
   );

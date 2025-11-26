@@ -22,7 +22,7 @@ export default async function BlogPostPage({params}: {params: {slug: string[]}})
   const hasCategory = fullPath.length > 0;
 
   return (
-    <main className="flex flex-1">
+    <div className="flex flex-1">
       <div className="w-full">
         <h1 className="text-4xl font-bold tracking-tight mb-4">{meta.title}</h1>
         {hasCategory && (
@@ -59,6 +59,6 @@ export default async function BlogPostPage({params}: {params: {slug: string[]}})
           <BackButton/>
         </section>
       </div>
-    </main>
+    </div>
   );
 }

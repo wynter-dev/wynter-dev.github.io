@@ -3,7 +3,7 @@ import CareerCard from '@/components/about/CareerCard';
 
 export default function AboutPage() {
   return (
-    <main className="flex flex-col">
+    <div className="flex flex-col">
       {/* Hero Section */}
       <section>
         <h1 className="text-4xl font-bold tracking-tight">About Me</h1>
@@ -95,7 +95,7 @@ export default function AboutPage() {
       </section>
 
       {/* Skills Summary */}
-      <section className="space-y-6">
+      <section className="space-y-6 mb-20">
         <h2 className="text-xl font-semibold">주요 역량</h2>
         <div className="grid md:grid-cols-2 gap-4">
           <SkillList
@@ -134,6 +134,6 @@ export default function AboutPage() {
           />
         </div>
       </section>
-    </main>
+    </div>
   );
 }

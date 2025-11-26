@@ -11,7 +11,7 @@ export default async function EditPostPage({params}: { params: { slug: string } 
   const categoryPath = [meta.depth1, meta.depth2, meta.depth3].filter(Boolean) as string[];
 
   return (
-    <main className="flex flex-col max-w-5xl">
+    <div className="flex flex-col max-w-5xl">
       <h1 className="text-3xl font-semibold tracking-tight">수정</h1>
       <EditPost
         slug={slug}
@@ -20,6 +20,6 @@ export default async function EditPostPage({params}: { params: { slug: string } 
         initialTags={tags.join(', ')}
         initialCategoryPath={categoryPath}
       />
-    </main>
+    </div>
   );
 }

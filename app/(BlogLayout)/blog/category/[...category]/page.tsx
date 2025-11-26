@@ -24,7 +24,7 @@ export default async function CategoryPage(props: CategoryPageProps) {
   const { posts } = await getPostsByCategoryPaginated(category.fullPath, 1, pageSize);
 
   return (
-    <main className="flex flex-col">
+    <div className="flex flex-col">
       <section className="flex items-start justify-between mb-5">
         <div className="space-y-3">
           <h1 className="text-3xl font-semibold tracking-tight">
@@ -45,6 +45,6 @@ export default async function CategoryPage(props: CategoryPageProps) {
           <PostCard key={post.slug} {...post} />
         ))}
       </section>
-    </main>
+    </div>
   );
 }

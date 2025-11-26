@@ -26,7 +26,7 @@ export default async function TagDetailPage({params}: TagDetailPageProps) {
   const filtered = posts.filter((p) => p.tags?.includes(tag));
 
   return (
-    <main className="flex flex-col">
+    <div className="flex flex-col">
       <h1 className="text-3xl font-bold tracking-tight">#{tag}</h1>
 
       <section className="space-y-4 py-5">
@@ -38,6 +38,6 @@ export default async function TagDetailPage({params}: TagDetailPageProps) {
           <p className="text-muted-foreground">해당 태그의 글이 없습니다.</p>
         )}
       </section>
-    </main>
+    </div>
   );
 }
