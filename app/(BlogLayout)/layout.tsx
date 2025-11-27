@@ -22,14 +22,21 @@ export default function BlogLayout({children}: {children: ReactNode}) {
           </aside>
 
           {/* Content Scroll Container */}
-          <main
-            className="flex-1 overflow-y-auto md:p-8 p-4 h-auto min-h-[calc(100vh-64px)] md:h-full md:min-h-0">
-            {children}
-            {/* Mobile footer inside flow */}
-            <div className="md:hidden mt-5 h-20">
+          <div className="flex flex-col overflow-y-auto md:p-8 p-4 h-full">
+            <main className="flex-1">
+              {children}
+            </main>
+            <div className="md:hidden h-20">
               <MainFooter/>
             </div>
-          </main>
+          </div>
+          {/*<main className="flex-1 overflow-y-auto md:p-8 p-4 h-screen">*/}
+          {/*  {children}*/}
+          {/*  /!* Mobile footer inside flow *!/*/}
+          {/*  <div className="md:hidden mt-5 h-20">*/}
+          {/*    <MainFooter/>*/}
+          {/*  </div>*/}
+          {/*</main>*/}
         </div>
 
         {/* Footer (Fixed on PC) */}
