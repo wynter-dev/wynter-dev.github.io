@@ -1,5 +1,5 @@
-import type { ReactNode } from 'react';
-import { Metadata } from 'next';
+import type {ReactNode} from 'react';
+import {Metadata} from 'next';
 import '@/styles/globals.css';
 import Script from 'next/script';
 
@@ -41,11 +41,19 @@ export const metadata: Metadata = {
   metadataBase,
 };
 
-export default function RootLayout({children}: {children: ReactNode}) {
+export default function RootLayout({children}: { children: ReactNode }) {
   return (
     <html lang="ko">
     <head>
-      {/* GTM Head Script */}
+      <Script async src="https://www.googletagmanager.com/gtag/js?id=G-EJJ7DDJXC9"></Script>
+      <Script id="ga-setup" strategy="afterInteractive">
+        {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-EJJ7DDJXC9');
+          `}
+      </Script>
       <Script id="gtm-head" strategy="afterInteractive">
         {`
             (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
