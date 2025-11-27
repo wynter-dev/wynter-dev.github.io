@@ -5,6 +5,7 @@ import {useTheme} from 'next-themes';
 import {Menu, Moon, Sun} from 'lucide-react';
 import DesktopHeader from '@/components/layout/header/DesktopHeader';
 import MobileHeader from '@/components/layout/header/MobileHeader';
+import VisitorStats from '@/components/analytics/VisitorStats';
 
 export default function MainHeader() {
   const {resolvedTheme, setTheme} = useTheme();
@@ -22,6 +23,7 @@ export default function MainHeader() {
         <DesktopHeader.Logo />
         <DesktopHeader.Nav />
         <div className="flex items-center gap-3">
+          <VisitorStats />
           {mounted && (
             <button
               onClick={toggleTheme}

@@ -12,6 +12,7 @@ export default function AdminSidebar() {
     {label: '블로그 목록', href: '/admin/posts'},
     {label: '블로그 생성', href: '/admin/posts/new'},
     {label: '카테고리 관리', href: '/admin/categories'},
+    {label: '사용자 통계', href: '/admin/analytics'},
   ];
 
   return (

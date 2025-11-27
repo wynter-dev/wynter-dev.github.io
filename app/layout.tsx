@@ -1,12 +1,11 @@
-import type {ReactNode} from 'react';
-import {Metadata} from 'next';
+import type { ReactNode } from 'react';
+import { Metadata } from 'next';
 import '@/styles/globals.css';
 import Script from 'next/script';
 
 const DEFAULT_SITE_URL = 'http://localhost:3000';
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || DEFAULT_SITE_URL;
 
-const metadataBase = new URL(baseUrl);
 export const metadata: Metadata = {
   title: 'Wynter Blog',
   description: '개발, 인프라, 일상 기록 블로그',
@@ -24,7 +23,7 @@ export const metadata: Metadata = {
       '개발하면서 배운 것들, 인프라 트러블슈팅 기록, 일상의 생각들을 담고 있는 공간입니다.',
     images: [
       {
-        url: `${baseUrl}/opengraph-image`, // blog OG image endpoint
+        url: `${baseUrl}/opengraph-image`,
         width: 1200,
         height: 630,
         alt: 'Wynter.log Blog',
@@ -38,14 +37,19 @@ export const metadata: Metadata = {
       '개발하면서 배운 것들, 인프라 트러블슈팅 기록, 일상의 생각들을 담고 있는 공간입니다.',
     images: [`${baseUrl}/twitter-image`],
   },
-  metadataBase,
+  metadataBase: new URL(baseUrl),
 };
 
-export default function RootLayout({children}: { children: ReactNode }) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="ko">
+    <html lang="ko" suppressHydrationWarning>
     <head>
-      <Script async src="https://www.googletagmanager.com/gtag/js?id=G-EJJ7DDJXC9"></Script>
+      {/* GA4 */}
+      <Script
+        src="https://www.googletagmanager.com/gtag/js?id=G-EJJ7DDJXC9"
+        strategy="afterInteractive"
+      />
+
       <Script id="ga-setup" strategy="afterInteractive">
         {`
             window.dataLayer = window.dataLayer || [];
@@ -54,7 +58,9 @@ export default function RootLayout({children}: { children: ReactNode }) {
             gtag('config', 'G-EJJ7DDJXC9');
           `}
       </Script>
-      <Script id="gtm-head" strategy="afterInteractive">
+
+      {/* GTM */}
+      <Script id="gtm" strategy="afterInteractive">
         {`
             (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
               new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -72,8 +78,8 @@ export default function RootLayout({children}: { children: ReactNode }) {
         src="https://www.googletagmanager.com/ns.html?id=GTM-MN4J5NJN"
         height="0"
         width="0"
-        style={{display: 'none', visibility: 'hidden'}}
-      />
+        style={{ display: 'none', visibility: 'hidden' }}
+      ></iframe>
     </noscript>
 
     {children}
