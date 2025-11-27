@@ -21,6 +21,7 @@ function Nav() {
   const navItems = [
     {href: '/', label: 'Home'},
     {href: '/blog', label: 'Blog'},
+    {href: '/tags', label: 'Tags'},
     {href: '/about', label: 'About'},
   ];
 

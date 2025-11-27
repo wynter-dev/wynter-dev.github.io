@@ -80,6 +80,14 @@ export default function MobileHeader({open, setOpen}: Props) {
       </div>
 
       <NoPrefetchLink
+        href="/tags"
+        onClick={() => setOpen(false)}
+        className="block text-sm text-muted-foreground hover:text-foreground"
+      >
+        Tag
+      </NoPrefetchLink>
+
+      <NoPrefetchLink
         href="/about"
         onClick={() => setOpen(false)}
         className="block text-sm text-muted-foreground hover:text-foreground"
