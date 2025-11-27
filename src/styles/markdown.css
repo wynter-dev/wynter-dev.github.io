@@ -33,12 +33,18 @@
         margin: 1rem 0;
     }
 
-    ul,
+    ul {
+        list-style-type: disc;
+        margin: 0.8rem 0 0.8rem 1.2rem;
+    }
+
     ol {
+        list-style-type: decimal;
         margin: 0.8rem 0 0.8rem 1.2rem;
     }
 
     li {
+        list-style-position: outside;
         margin: 0.35rem 0;
         line-height: 1.7;
     }

@@ -1,23 +1,57 @@
-import {cn} from '@/lib/utils';
-import {notFound} from 'next/navigation';
-import {Calendar, Tag} from 'lucide-react';
-import {getPostBySlug} from '@/utils/mdx';
-import {getCategoryPairs} from '@/utils/category';
+import { cn } from '@/lib/utils';
+import { notFound } from 'next/navigation';
+import { Calendar, Tag } from 'lucide-react';
+import { getPostBySlug } from '@/utils/mdx';
+import { getCategoryPairs } from '@/utils/category';
 import NoPrefetchLink from '@/components/NoPrefetchLink';
 import BackButton from '@/components/blog/BackButton';
-import {Badge} from '@/components/ui/badge';
+import { Badge } from '@/components/ui/badge';
 import Comments from '@/components/blog/Comments';
 
 import '@/styles/markdown.css';
 
-export default async function BlogPostPage({params}: { params: { slug: string[] } }) {
+export async function generateImageMetadata({params}: {params: { slug: string }}) {
+  const slug = params.slug.at(-1);
+
+  if(!slug || slug.length === 0) {
+    return {};
+  }
+
+  const post = await getPostBySlug(slug);
+  const {meta} = post;
+
+  const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || '';
+
+  return {
+    title: meta.title,
+    description: meta.description,
+    openGraph: {
+      title: meta.title,
+      description: meta.description,
+      images: [
+        {
+          url: `${SITE_URL}/api/blog/${slug}/opengraph-image`,
+          width: 1200,
+          height: 630,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      images: [`${SITE_URL}/api/blog/${slug}/opengraph-image`],
+    },
+  };
+}
+
+
+export default async function BlogPostPage({params}: {params: {slug: string[]}}) {
   const resolved = await params;
   const slugArray = resolved.slug;
   const slug = slugArray.at(-1);
-  if (!slug) return notFound();
+  if(!slug) return notFound();
 
   const post = await getPostBySlug(slug);
-  if (!post) return notFound();
+  if(!post) return notFound();
 
   const {meta, content} = post;
 
@@ -58,12 +92,12 @@ export default async function BlogPostPage({params}: { params: { slug: string[] 
       )}
       <div className="flex gap-6 text-sm text-muted-foreground flex-col lg:flex-row">
         <div className="flex items-center gap-1 max-w-md">
-          <Calendar className="h-4 w-4" />
+          <Calendar className="h-4 w-4"/>
           {meta.createdDate}
         </div>
         {meta.tags?.length > 0 && (
           <div className="flex items-center align-center gap-1 flex-wrap">
-            <Tag className="h-4 w-4" />
+            <Tag className="h-4 w-4"/>
             {meta.tags.map((tag) => (
               <Badge
                 key={tag}
@@ -78,9 +112,9 @@ export default async function BlogPostPage({params}: { params: { slug: string[] 
         )}
       </div>
       <article className="markdown-body my-6">{content}</article>
-      <Comments />
+      <Comments/>
       <section className="pt-4 flex text-sm">
-        <BackButton />
+        <BackButton/>
       </section>
     </div>
   );

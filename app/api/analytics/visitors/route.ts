@@ -24,7 +24,7 @@ export async function GET() {
     // 전체 방문자 (GA4는 생성 이후 전체 기간)
     const [allRes] = await analytics.runReport({
       property: `properties/${GA_PROPERTY_ID}`,
-      dateRanges: [{startDate: '2020-01-01', endDate: 'today'}],
+      dateRanges: [{startDate: '2025-11-27', endDate: 'today'}],
       metrics: [{name: 'totalUsers'}],
     });
 

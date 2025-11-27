@@ -6,7 +6,7 @@ export async function GET() {
   const { posts } = await getAllPostsPaginated(1, 999999);
 
   // 사이트 기본 URL
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://wynter-dev.vercel.app';
+  const siteUrl = 'https://wynter-dev.vercel.app';
 
   // 최신순 정렬
   const sorted = posts.sort((a, b) => {
