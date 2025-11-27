@@ -22,7 +22,7 @@ export default function VisitorStats() {
 
   return (
     <div className="flex items-center gap-3 text-xs text-muted-foreground">
-      <span className="flex items-center gap-1 whitespace-nowrap">
+      <span className="md:flex hidden  items-center gap-1 whitespace-nowrap">
         <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
         <strong className="font-medium text-foreground">{active.toLocaleString()}</strong>
       </span>

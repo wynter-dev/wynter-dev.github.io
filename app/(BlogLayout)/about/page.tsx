@@ -4,10 +4,9 @@ import CareerCard from '@/components/about/CareerCard';
 export default function AboutPage() {
   return (
     <div className="flex flex-col">
-      {/* Hero Section */}
       <section>
-        <h1 className="text-4xl font-bold tracking-tight">About Me</h1>
-        <div className="text-[17px] leading-[1.85] text-foreground my-4">
+        <h1 className="md:text-4xl text-2xl font-bold tracking-tight">About Me</h1>
+        <div className="md:text-lg text-md leading-[1.85] text-foreground my-4">
           <p>
             안녕하세요. 저는 커머스와 핀테크 분야에서 다양한 웹 서비스를 구축하며
             프론트엔드 중심의 실무 경험을 쌓아온 개발자입니다.
@@ -22,8 +21,6 @@ export default function AboutPage() {
           </p>
         </div>
       </section>
-
-      {/* Career Section */}
       <section className="space-y-6">
         <h2 className="text-xl font-semibold">경력</h2>
 
@@ -95,7 +92,7 @@ export default function AboutPage() {
       </section>
 
       {/* Skills Summary */}
-      <section className="space-y-6 mt-10 mb-20">
+      <section className="space-y-6 mt-10">
         <h2 className="text-xl font-semibold">주요 역량</h2>
         <div className="grid md:grid-cols-2 gap-4">
           <SkillList

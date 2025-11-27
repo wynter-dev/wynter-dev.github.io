@@ -21,7 +21,6 @@ export default async function BlogListPage(props: BlogListPageProps) {
         </div>
         <PageSizeSelect pageSize={pageSize}/>
       </section>
-
       <section className="space-y-6">
         {posts.map((post) => (
           <PostCard key={post.slug} {...post} />

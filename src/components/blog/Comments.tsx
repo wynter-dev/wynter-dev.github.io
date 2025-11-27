@@ -1,13 +1,13 @@
 'use client';
 
 import Giscus from '@giscus/react';
-import { useTheme } from 'next-themes';
+import {useTheme} from 'next-themes';
 
 export default function Comments() {
   const {resolvedTheme} = useTheme();
 
   return (
-    <div className="mt-12">
+    <div className="mt-5">
       <Giscus
         id="comments"
         repo="wynter-dev/wynter-dev"

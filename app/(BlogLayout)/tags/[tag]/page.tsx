@@ -27,7 +27,7 @@ export default async function TagDetailPage({params}: TagDetailPageProps) {
 
   return (
     <div className="flex flex-col">
-      <h1 className="text-3xl font-bold tracking-tight">#{tag}</h1>
+      <h1 className="md:text-4xl text-2xl font-bold tracking-tight"># {tag}</h1>
 
       <section className="space-y-4 py-5">
         {filtered.map((post) => (

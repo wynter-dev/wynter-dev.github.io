@@ -18,11 +18,14 @@ export default function MainHeader() {
   useEffect(() => setMounted(true), []);
 
   return (
-    <header className="sticky top-0 z-40 border-b bg-background">
+    <header className="fixed top-0 left-0 right-0 h-15 bg-background border-b items-center sm:px-6 ">
       <div className="mx-auto flex h-14 items-center justify-between px-4">
         <DesktopHeader.Logo />
         <DesktopHeader.Nav />
         <div className="flex items-center gap-3">
+          <div className="md:hidden block py-3">
+            <VisitorStats />
+          </div>
           {mounted && (
             <button
               onClick={toggleTheme}
@@ -38,8 +41,7 @@ export default function MainHeader() {
           <DesktopHeader.UtilityButtons />
           <button
             className="md:hidden rounded-md border px-2 py-1 hover:bg-muted transition"
-            onClick={() => setMobileOpen(!mobileOpen)}
-          >
+            onClick={() => setMobileOpen(!mobileOpen)}>
             <Menu className="h-4 w-4" />
           </button>
         </div>

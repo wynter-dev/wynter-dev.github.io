@@ -5,6 +5,7 @@ import {usePathname} from 'next/navigation';
 import {CATEGORIES, EnhancedCategoryNode, getCategoryUrl, isCategoryActive} from '@/utils/category';
 import {cn} from '@/lib/utils';
 import NoPrefetchLink from '@/components/NoPrefetchLink';
+import VisitorStats from '@/components/analytics/VisitorStats';
 
 type Props = {
   open: boolean;
@@ -54,7 +55,6 @@ export default function MobileHeader({open, setOpen}: Props) {
 
   return (
     <div className="md:hidden border-t bg-background px-4 py-3 space-y-4">
-      {/* 기본 메뉴 */}
       <NoPrefetchLink
         href="/"
         onClick={() => setOpen(false)}

@@ -7,8 +7,8 @@ export default async function HomePage() {
   const {posts} = await getAllPostsPaginated(1, 3);
 
   return (
-    <div className="flex flex-col items-center">
-      <section className="text-center space-y-7 max-w-3xl">
+    <div className="flex flex-col">
+      <section className="text-center space-y-7 mx-auto">
         <div
           className="inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-xs font-medium text-muted-foreground bg-muted/50 backdrop-blur-sm">
           <PenLine className="h-4 w-4" />
@@ -39,9 +39,9 @@ export default async function HomePage() {
         </NoPrefetchLink>
       </section>
       {/* Divider */}
-      <div className="my-13 h-px w-full max-w-3xl bg-border/70" />
+      <div className="my-13 h-px w-full bg-border/70" />
       {/* Recent Posts */}
-      <section className="w-full max-w-3xl space-y-8">
+      <section className="w-full space-y-8">
         <h2 className="text-2xl font-semibold tracking-tight">최근 업데이트</h2>
         <div className="space-y-5">
           {posts.length === 0 && (
@@ -51,7 +51,7 @@ export default async function HomePage() {
           )}
           {posts.map((post) => <PostCard key={post.slug} {...post} />)}
         </div>
-        <div className="pt-2 mb-30">
+        <div className="pt-2">
           <NoPrefetchLink
             href="/blog"
             className="text-sm text-primary hover:underline inline-flex items-center"

@@ -27,7 +27,7 @@ export default async function CategoryPage(props: CategoryPageProps) {
     <div className="flex flex-col">
       <section className="flex items-start justify-between mb-5 flex-col lg:flex-row gap-3">
         <div className="space-y-3">
-          <h1 className="text-2xl lg:text-3xl font-semibold tracking-tight">
+          <h1 className="md:text-4xl text-2xl font-semibold tracking-tight">
             {category.fullPathName.join(' / ')}
           </h1>
         </div>

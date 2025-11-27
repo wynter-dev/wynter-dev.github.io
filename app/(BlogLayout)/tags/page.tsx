@@ -5,7 +5,7 @@ export default async function TagsPage() {
   const tags = await getAllTags();
   return (
     <div className="flex flex-col">
-      <h1 className="text-3xl font-bold tracking-tight">Tags</h1>
+      <h1 className="md:text-4xl text-2xl font-bold tracking-tight">Tags</h1>
       <section className="flex flex-wrap gap-3 pt-5">
         {tags.map(({tag, count}) => (
           <NoPrefetchLink

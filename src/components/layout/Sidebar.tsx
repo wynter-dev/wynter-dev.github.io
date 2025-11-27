@@ -60,14 +60,7 @@ export function Sidebar() {
   const isBlogActive = pathname.startsWith('/blog');
 
   return (
-    <aside
-      className="hidden md:block w-56
-        sticky top-16
-        h-[calc(100vh-64px)]
-        border-r bg-background/50 backdrop-blur
-        overflow-y-auto z-40
-      "
-    >
+    <aside>
       <div className="mx-6 my-4 p-3 border rounded-lg bg-muted ">
         <VisitorStats />
       </div>
@@ -105,14 +98,15 @@ export function Sidebar() {
                     <BookOpen className="h-4 w-4" />
                     <span>Blog</span>
                   </NoPrefetchLink>
+
                   <AccordionTrigger className="p-2 ml-2 rounded-md hover:bg-muted transition [&>svg]:size-4" />
                 </div>
+
                 <AccordionContent className="pl-4 py-1 space-y-4">
                   {CATEGORIES.map((category) => renderCategoryNode(category))}
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
-
           )
         )}
       </nav>

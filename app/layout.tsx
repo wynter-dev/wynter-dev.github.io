@@ -1,7 +1,10 @@
-import type { ReactNode } from 'react';
-import { Metadata } from 'next';
+import type {ReactNode} from 'react';
+import {Metadata} from 'next';
 import '@/styles/globals.css';
 import Script from 'next/script';
+import localFont from 'next/font/local';
+import {Geist_Mono} from 'next/font/google';
+import {cn} from '@/lib/utils';
 
 const DEFAULT_SITE_URL = 'http://localhost:3000';
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || DEFAULT_SITE_URL;
@@ -40,7 +43,28 @@ export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
 };
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+const pretendard = localFont({
+  src: [
+    {path: '../public/fonts/pretendard/Pretendard-Thin.woff2', weight: '100'},
+    {path: '../public/fonts/pretendard/Pretendard-ExtraLight.woff2', weight: '200'},
+    {path: '../public/fonts/pretendard/Pretendard-Light.woff2', weight: '300'},
+    {path: '../public/fonts/pretendard/Pretendard-Regular.woff2', weight: '400'},
+    {path: '../public/fonts/pretendard/Pretendard-Medium.woff2', weight: '500'},
+    {path: '../public/fonts/pretendard/Pretendard-SemiBold.woff2', weight: '600'},
+    {path: '../public/fonts/pretendard/Pretendard-Bold.woff2', weight: '700'},
+    {path: '../public/fonts/pretendard/Pretendard-ExtraBold.woff2', weight: '800'},
+    {path: '../public/fonts/pretendard/Pretendard-Black.woff2', weight: '900'},
+  ],
+  variable: '--font-pretendard',
+  display: 'swap',
+});
+
+const geistMono = Geist_Mono({
+  variable: '--font-geist-mono',
+  subsets: ['latin'],
+});
+
+export default function RootLayout({children}: { children: ReactNode }) {
   return (
     <html lang="ko" suppressHydrationWarning>
     <head>
@@ -69,19 +93,26 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             })(window,document,'script','dataLayer','GTM-MN4J5NJN');
           `}
       </Script>
-    </head>
 
-    <body>
+      {/* Google AdSense */}
+      <Script
+        id="adsense-script"
+        async
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6689558343928586"
+        crossOrigin="anonymous"
+        strategy="afterInteractive"
+      />
+    </head>
+    <body className={cn(pretendard.variable, geistMono.variable)}>
     {/* GTM noscript */}
     <noscript>
       <iframe
         src="https://www.googletagmanager.com/ns.html?id=GTM-MN4J5NJN"
         height="0"
         width="0"
-        style={{ display: 'none', visibility: 'hidden' }}
+        style={{display: 'none', visibility: 'hidden'}}
       ></iframe>
     </noscript>
-
     {children}
     </body>
     </html>
