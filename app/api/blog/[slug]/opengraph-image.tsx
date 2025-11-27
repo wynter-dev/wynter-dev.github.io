@@ -25,17 +25,17 @@ export default async function Image({params}: {params: Promise<{slug: string}>})
           justifyContent: 'space-between',
           background: 'linear-gradient(135deg, #5be6d5 0%, #9a8dff 50%, #ff82c5 100%)',
           border: '1px solid #ececec',
+          color: '#fff',
         }}
       >
         {/* 상단 타이틀 */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+        <div style={{display: 'flex', flexDirection: 'column', gap: 20}}>
           <div
             style={{
               fontSize: 60,
               fontWeight: 900,
               lineHeight: 1.5,
               maxWidth: '90%',
-              color: '#fff',
             }}
           >
             {meta.title}
@@ -48,8 +48,7 @@ export default async function Image({params}: {params: Promise<{slug: string}>})
               opacity: 0.7,
               maxWidth: '80%',
               lineHeight: 1.45,
-              color: '#111',
-              padding: '10px'
+              padding: '10px',
             }}
           >
             {meta.description}
@@ -68,7 +67,6 @@ export default async function Image({params}: {params: Promise<{slug: string}>})
           <div
             style={{
               fontWeight: 700,
-              color: '#fff',
             }}
           >
             Wynter.log
@@ -78,7 +76,6 @@ export default async function Image({params}: {params: Promise<{slug: string}>})
             style={{
               fontSize: 18,
               opacity: 0.6,
-              color: '#111',
             }}
           >
             {dayjs(meta.createdDate).format('YYYY-MM-DD')}
@@ -86,6 +83,6 @@ export default async function Image({params}: {params: Promise<{slug: string}>})
         </div>
       </div>
     ),
-    size
-  )
+    size,
+  );
 }
