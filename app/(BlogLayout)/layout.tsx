@@ -9,13 +9,13 @@ import { Sidebar } from '@/components/layout/Sidebar';
 export default function BlogLayout({children}: {children: ReactNode}) {
   return (
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem enableColorScheme={false}>
-      <div className="w-screen h-screen flex flex-col overflow-hidden">
+      <div className="w-screen h-dvh flex flex-col overflow-hidden">
         {/* Header (Fixed) */}
         <div className="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-screen-xl z-[999]">
           <MainHeader/>
         </div>
 
-        <div className="flex pt-16 mx-auto max-w-screen-xl md:h-[calc(100vh-10dvh)] h-full w-screen overflow-hidden">
+        <div className="flex pt-16 mx-auto max-w-screen-xl md:h-[calc(100dvh-10dvh)] h-full w-screen overflow-hidden">
           {/* Sidebar (PC Only) */}
           <aside className="max-w-50 hidden md:block h-full w-full border-r bg-background z-[900]">
             <Sidebar/>
@@ -30,13 +30,6 @@ export default function BlogLayout({children}: {children: ReactNode}) {
               <MainFooter/>
             </div>
           </div>
-          {/*<main className="flex-1 overflow-y-auto md:p-8 p-4 h-screen">*/}
-          {/*  {children}*/}
-          {/*  /!* Mobile footer inside flow *!/*/}
-          {/*  <div className="md:hidden mt-5 h-20">*/}
-          {/*    <MainFooter/>*/}
-          {/*  </div>*/}
-          {/*</main>*/}
         </div>
 
         {/* Footer (Fixed on PC) */}
