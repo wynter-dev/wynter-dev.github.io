@@ -6,6 +6,7 @@ import {BookOpen, Folder, Home, Rss} from 'lucide-react';
 import {Accordion, AccordionContent, AccordionItem, AccordionTrigger} from '@/components/ui/accordion';
 import {CATEGORIES, EnhancedCategoryNode, getCategoryUrl, isCategoryActive} from '@/utils/category';
 import NoPrefetchLink from '@/components/NoPrefetchLink';
+import VisitorStats from '@/components/analytics/VisitorStats';
 
 export function Sidebar() {
   const pathname = usePathname();
@@ -38,7 +39,7 @@ export function Sidebar() {
             'relative block py-1 px-2 rounded overflow-hidden',
             'hover:bg-muted/70 hover:text-gray-500 text-secondary',
             depthStyle,
-            active && `border-2 bg-muted text-primary font-bold`
+            active && `bg-muted text-primary font-bold`
           )}
         >
           {node.label}
@@ -67,7 +68,10 @@ export function Sidebar() {
         overflow-y-auto z-40
       "
     >
-      <nav className="px-6 py-6 space-y-2">
+      <div className="mx-6 my-4 p-3 border rounded-lg bg-muted ">
+        <VisitorStats />
+      </div>
+      <nav className="px-6 space-y-2">
         {sidebarItems.map((item) =>
           item.label !== 'Blog' ? (
             <NoPrefetchLink

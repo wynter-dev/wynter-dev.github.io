@@ -23,7 +23,6 @@ export default function MainHeader() {
         <DesktopHeader.Logo />
         <DesktopHeader.Nav />
         <div className="flex items-center gap-3">
-          <VisitorStats />
           {mounted && (
             <button
               onClick={toggleTheme}
