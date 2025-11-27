@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: 'website',
-    url: 'https://wynter-dev.vercel.app/blog',
+    url: baseUrl,
     title: 'Blog - Wynter.log',
     description:
       '개발하면서 배운 것들, 인프라 트러블슈팅 기록, 일상의 생각들을 담고 있는 공간입니다.',

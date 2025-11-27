@@ -4,7 +4,7 @@ import { getAllPostsPaginated } from '@/utils/mdx';
 export const dynamic = 'force-static';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://wynter-dev.vercel.app';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? '';
 
   const staticPaths = ['', '/blog', '/about', '/blog/tags', '/blog/tags/category'];
 
