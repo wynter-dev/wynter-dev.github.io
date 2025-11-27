@@ -48,26 +48,31 @@ export default async function HomePage() {
               아직 작성한 글이 없어요. 첫 글을 작성해보세요!
             </p>
           )}
-          {posts.map((post) => (
-            <NoPrefetchLink
-              href={`/app/(blog)/blog/${post.slug}`}
-              key={post.slug}
-              className="
+          {posts.map((post) => {
+            console.log(post);
+            const categoryPath = [post.depth1, post.depth2, post.depth3].filter(Boolean).join('/');
+            console.log(categoryPath);
+            return (
+              <NoPrefetchLink
+                href={`/blog/${categoryPath}/${post.slug}`}
+                key={post.slug}
+                className="
                 block rounded-xl border p-6 transition group
                 hover:bg-muted/50 hover:shadow-sm
               "
-            >
-              <h3 className="text-lg font-semibold group-hover:text-primary transition">
-                {post.title}
-              </h3>
-              <p className="text-sm text-muted-foreground mt-1 line-clamp-2">
-                {post.description}
-              </p>
-              <span className="text-xs text-muted-foreground mt-2 block">
+              >
+                <h3 className="text-lg font-semibold group-hover:text-primary transition">
+                  {post.title}
+                </h3>
+                <p className="text-sm text-muted-foreground mt-1 line-clamp-2">
+                  {post.description}
+                </p>
+                <span className="text-xs text-muted-foreground mt-2 block">
                 {post.createdDate}
               </span>
-            </NoPrefetchLink>
-          ))}
+              </NoPrefetchLink>
+            );
+          })}
         </div>
         <div className="pt-2 mb-30">
           <NoPrefetchLink
