@@ -43,7 +43,7 @@ export default async function Image({params}: {params: Promise<{slug: string}>})
 
           <div
             style={{
-              fontSize: 24,
+              fontSize: 40,
               fontWeight: 500,
               opacity: 0.7,
               maxWidth: '80%',
@@ -60,7 +60,7 @@ export default async function Image({params}: {params: Promise<{slug: string}>})
           style={{
             display: 'flex',
             justifyContent: 'space-between',
-            fontSize: 22,
+            fontSize: 30,
             alignItems: 'center',
           }}
         >
@@ -74,7 +74,7 @@ export default async function Image({params}: {params: Promise<{slug: string}>})
 
           <div
             style={{
-              fontSize: 18,
+              fontSize: 20,
               opacity: 0.6,
             }}
           >
