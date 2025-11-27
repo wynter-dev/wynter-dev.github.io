@@ -3,15 +3,15 @@ import PostCard from '@/components/blog/PostCard';
 import PageSizeSelect from '@/components/pagination/PageSizeSelect';
 
 interface BlogListPageProps {
-  searchParams?: {
+  searchParams: {
     pageSize?: string;
   };
 }
 
-export default async function BlogListPage(props: BlogListPageProps) {
-  const resolved = await props.searchParams;
-  const pageSize = Number(resolved?.pageSize ?? 10);
-  const {posts} = await getAllPostsPaginated(1, pageSize);
+export default async function BlogListPage({searchParams}: BlogListPageProps) {
+  const {pageSize} = await searchParams;
+  const pageRange = Number(pageSize ?? 10);
+  const {posts} = await getAllPostsPaginated(1, pageRange);
 
   return (
     <div className="flex flex-col">
@@ -19,7 +19,7 @@ export default async function BlogListPage(props: BlogListPageProps) {
         <div className="space-y-3">
           <h1 className="text-2xl md:text-4xl font-semibold tracking-tight">블로그</h1>
         </div>
-        <PageSizeSelect pageSize={pageSize}/>
+        <PageSizeSelect pageSize={pageRange}/>
       </section>
       <section className="space-y-6">
         {posts.map((post) => (

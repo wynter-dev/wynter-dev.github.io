@@ -1,9 +1,8 @@
-import {getPostBySlug} from '@/utils/mdx';
+import { getPostBySlug } from '@/utils/mdx';
 import EditPost from '@/components/admin/post/edit/EditPost';
 
-export default async function EditPostPage({params}: { params: { slug: string } }) {
-  const resolved = await params;
-  const slug = resolved.slug;
+export default async function EditPostPage({params}: {params: {slug: string}}) {
+  const {slug} = await params;
   const {body, meta} = await getPostBySlug(slug);
 
   const title = meta.title;

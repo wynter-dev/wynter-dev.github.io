@@ -5,23 +5,20 @@ import PostCard from '@/components/blog/PostCard';
 import PageSizeSelect from '@/components/pagination/PageSizeSelect';
 
 interface CategoryPageProps {
-  params: Promise<{ category: string[] }>;
-  searchParams: Promise<{ pageSize?: string }>;
+  params: Promise<{category: string[]}>;
+  searchParams: Promise<{pageSize?: string}>;
 }
 
-export default async function CategoryPage(props: CategoryPageProps) {
-  const resolved = await props;
+export default async function CategoryPage({params, searchParams}: CategoryPageProps) {
+  const {category: categoryPath} = await params;
+  const {pageSize} = await searchParams;
 
-  const params = await resolved.params;
-  const searchParams = await resolved.searchParams;
-
-  const categoryPath = params.category;
-  const pageSize = Number(searchParams?.pageSize ?? 10);
+  const pageRange = Number(pageSize ?? 10);
 
   const category = findCategoryByPath(CATEGORIES, categoryPath);
-  if (!category) return notFound();
+  if(!category) return notFound();
 
-  const { posts } = await getPostsByCategoryPaginated(category.fullPath, 1, pageSize);
+  const {posts} = await getPostsByCategoryPaginated(category.fullPath, 1, pageRange);
 
   return (
     <div className="flex flex-col">
@@ -31,7 +28,7 @@ export default async function CategoryPage(props: CategoryPageProps) {
             {category.fullPathName.join(' / ')}
           </h1>
         </div>
-        <PageSizeSelect pageSize={pageSize} />
+        <PageSizeSelect pageSize={pageRange}/>
       </section>
 
       <section className="space-y-6">

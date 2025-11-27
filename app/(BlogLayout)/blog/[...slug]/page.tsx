@@ -11,7 +11,7 @@ import Comments from '@/components/blog/Comments';
 import '@/styles/markdown.css';
 
 export async function generateMetadata({params}: {  params: Promise<{ slug: string }>}) {
-  const { slug } = await params;
+  const { slug = '' } = await params;
   const blogSlug = slug.at(-1);
 
   const post = await getPostBySlug(blogSlug ?? '');
@@ -41,8 +41,7 @@ export async function generateMetadata({params}: {  params: Promise<{ slug: stri
 }
 
 export default async function BlogPostPage({params}: {params: {slug: string[]}}) {
-  const resolved = await params;
-  const slugArray = resolved.slug;
+  const {slug: slugArray} = await params;
   const slug = slugArray.at(-1);
   if(!slug) return notFound();
 
