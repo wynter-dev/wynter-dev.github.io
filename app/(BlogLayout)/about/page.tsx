@@ -95,7 +95,7 @@ export default function AboutPage() {
       </section>
 
       {/* Skills Summary */}
-      <section className="space-y-6 mb-20">
+      <section className="space-y-6 mt-10 mb-20">
         <h2 className="text-xl font-semibold">주요 역량</h2>
         <div className="grid md:grid-cols-2 gap-4">
           <SkillList
