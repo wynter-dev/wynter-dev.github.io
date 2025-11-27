@@ -6,7 +6,7 @@ export default async function AdminPostsPage() {
 
   return (
     <div className="flex flex-col max-w-5xl">
-      <h1 className="text-2xl font-semibold mb-6">블로그 글 목록</h1>
+      <h1 className="text-3xl font-semibold tracking-tight mb-6">블로그 글 목록</h1>
 
       <div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
         <table className="w-full border-collapse">
