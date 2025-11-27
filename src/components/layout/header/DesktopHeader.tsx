@@ -99,7 +99,7 @@ function Nav() {
 
 function UtilityButtons() {
   return (
-    <div className="hidden md:flex items-center gap-2 ml-2">
+    <div className="hidden md:flex items-center gap-2">
       <NoPrefetchLink
         href="https://github.com/wynter-dev"
         target="_blank"

@@ -22,7 +22,7 @@ export default function MainHeader() {
       <div className="mx-auto flex h-14 items-center justify-between px-4">
         <DesktopHeader.Logo />
         <DesktopHeader.Nav />
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
           <div className="md:hidden block py-3">
             <VisitorStats />
           </div>
