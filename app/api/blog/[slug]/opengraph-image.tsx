@@ -44,7 +44,7 @@ export default async function Image({params}: {params: Promise<{slug: string}>})
           <div
             style={{
               fontSize: 40,
-              fontWeight: 500,
+              fontWeight: 900,
               opacity: 0.7,
               maxWidth: '80%',
               lineHeight: 1.45,
