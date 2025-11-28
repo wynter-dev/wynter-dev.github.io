@@ -144,27 +144,23 @@ async function paginateFiles(
   page: number,
   pageSize: number,
 ): Promise<PostListResult> {
-  const items = files.map((file) => {
-    const stat = fs.statSync(file);
+  const loaded = await Promise.all(files.map(loadMarkdownFile));
 
-    return {
-      path: file,
-      timestamp: stat.mtime.getTime(),
-    };
+  // 날짜 기준 정렬 (updatedDate > createdDate > slug)
+  loaded.sort((a, b) => {
+    const dateA = new Date(a.meta.updatedDate || a.meta.createdDate || 0).getTime();
+    const dateB = new Date(b.meta.updatedDate || b.meta.createdDate || 0).getTime();
+    return dateB - dateA; // 최신순
   });
 
-  items.sort((a, b) => b.timestamp - a.timestamp);
-
-  const total = items.length;
+  const total = loaded.length;
   const totalPages = Math.ceil(total / pageSize);
 
   const start = (page - 1) * pageSize;
-  const sliced = items.slice(start, start + pageSize).map((i) => i.path);
-
-  const loaded = await Promise.all(sliced.map(loadMarkdownFile));
+  const sliced = loaded.slice(start, start + pageSize);
 
   return {
-    posts: loaded.map((p) => p.meta),
+    posts: sliced.map((p) => p.meta),
     total,
     totalPages,
   };
