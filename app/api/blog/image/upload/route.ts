@@ -6,40 +6,48 @@ import { mkdir, writeFile } from 'fs/promises';
 import sharp from 'sharp';
 
 function sanitizeFilename(name: string): string {
-  return name.replace(/\s+/g, '-').replace(/[^a-zA-Z0-9._-]/g, '').toLowerCase();
+  return name
+    .replace(/\s+/g, '-')           // 공백 → 하이픈
+    .replace(/[^a-zA-Z0-9._-]/g, '') // 한글/특수문자 제거
+    .toLowerCase();
 }
 
 export async function POST(req: Request) {
   const formData = await req.formData();
   const file = formData.get('file') as File | null;
-  const option = formData.get('option') as string | null;
 
-  if(!file) return NextResponse.json({error: 'No file uploaded'}, {status: 400});
+  if(!file) {
+    return NextResponse.json({error: 'No file uploaded'}, {status: 400});
+  }
 
   const arrayBuffer = await file.arrayBuffer();
   const buffer = Buffer.from(arrayBuffer);
 
   const original = file.name;
   const ext = path.extname(original).toLowerCase() || '.jpg';
+  const safeBase = sanitizeFilename(path.basename(original, ext));
 
-  const fileName = `${Date.now()}-image${ext}`;
+  const fileName = `${Date.now()}-${safeBase || 'image'}${ext}`;
 
-  let processed = sharp(buffer).rotate();
-
-  if(option === '500') processed = processed.resize({width: 500});
-  if(option === '700') processed = processed.resize({width: 700});
-  if(option === 'square') processed = processed.resize(800, 800, {fit: 'cover'});
-
-  const output = await processed.toBuffer();
+  const output = await sharp(buffer).rotate().toBuffer();
 
   if(process.env.NODE_ENV === 'development') {
-    const dir = path.join(process.cwd(), 'public', 'uploads');
+    const now = new Date();
+    const folderName = [
+      now.getFullYear(),
+      String(now.getMonth() + 1).padStart(2, '0'),
+      String(now.getDate()).padStart(2, '0'),
+    ].join('-'); // YYYY-MM-DD
+
+    const dir = path.join(process.cwd(), 'public', 'uploads', folderName);
     if(!fs.existsSync(dir)) await mkdir(dir, {recursive: true});
 
     const filepath = path.join(dir, fileName);
     await writeFile(filepath, output);
 
-    return NextResponse.json({url: `/uploads/${fileName}`});
+    return NextResponse.json({
+      url: `/uploads/${folderName}/${fileName}`,
+    });
   }
 
   const token = process.env.GITHUB_TOKEN ?? '';
@@ -47,8 +55,16 @@ export async function POST(req: Request) {
   const repo = process.env.GITHUB_REPO ?? '';
   const branch = process.env.GITHUB_BRANCH ?? 'main';
 
+  const now = new Date();
+  const folderName = [
+    now.getFullYear(),
+    String(now.getMonth() + 1).padStart(2, '0'),
+    String(now.getDate()).padStart(2, '0'),
+  ].join('-');
+
   const octokit = new Octokit({auth: token});
-  const gitPath = `public/images/${fileName}`;
+
+  const gitPath = `public/images/${folderName}/${fileName}`;
 
   await octokit.rest.repos.createOrUpdateFileContents({
     owner,
@@ -59,6 +75,7 @@ export async function POST(req: Request) {
     branch,
   });
 
-  const url = `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/public/images/${fileName}`;
+  const url = `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/public/images/${folderName}/${fileName}`;
+
   return NextResponse.json({url});
 }

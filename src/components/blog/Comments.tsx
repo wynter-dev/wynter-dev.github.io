@@ -15,8 +15,8 @@ export default function Comments() {
         category="Announcements"
         categoryId="DIC_kwDOQZYZes4CzEqH"
         mapping="pathname"
-        reactionsEnabled="0"
-        emitMetadata="1"
+        reactionsEnabled="1"
+        emitMetadata="0"
         inputPosition="bottom"
         theme={resolvedTheme}
         lang="ko"
