@@ -43,7 +43,7 @@ export default async function AdminLayout({children}: { children: ReactNode }) {
         </div>
       </div>
 
-      <main className="md:p-10 p-5 h-[calc(100dvh-70px)] w-full overflow-y-auto">
+      <main className="md:p-10 p-5 md:h-screen h-[calc(100dvh-70px)] w-full overflow-y-auto">
         {children}
       </main>
     </div>
