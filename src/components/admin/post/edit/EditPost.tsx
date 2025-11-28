@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect, FormEvent } from 'react';
-import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
 import { Loader2 } from 'lucide-react';
 import CategorySelect from '@/components/admin/post/new/CategorySelect';
@@ -9,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { useTheme } from 'next-themes';
 import { cn } from '@/lib/utils';
 
-const MDEditor = dynamic(() => import('@uiw/react-md-editor'), {ssr: false});
+import BlogEditor from '@/components/editor/BlogEditor'; // ⭐ 추가된 부분
 
 export default function EditPost({
                                    slug,
@@ -33,11 +32,10 @@ export default function EditPost({
   const [loading, setLoading] = useState(false);
 
   const [title, setTitle] = useState(initialTitle);
-  const [tags, setTags] = useState(initialTags); // comma-separated string
+  const [tags, setTags] = useState(initialTags);
   const [content, setContent] = useState(initialContent);
 
   const [categoryPath, setCategoryPath] = useState(initialCategoryPath);
-
   const [originalCategoryPath] = useState(initialCategoryPath);
 
   useEffect(() => setMounted(true), []);
@@ -100,11 +98,7 @@ export default function EditPost({
         className={cn(`pr-1`)}
       >
         <label className="block mb-2 text-lg font-medium">내용</label>
-        <MDEditor
-          height={700}
-          value={content}
-          onChange={(val) => setContent(val ?? '')}
-        />
+        <BlogEditor value={content} onChange={setContent}/>
       </div>
 
       {/* Tags */}
