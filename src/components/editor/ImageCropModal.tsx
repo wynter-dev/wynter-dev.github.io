@@ -19,6 +19,7 @@ export default function ImageCropModal({file, onCancel, onCropped}: Props) {
     contrast,
     aspect,
     outputWidth,
+    outputHeight,
     imgUrl,
 
     setCrop,
@@ -28,6 +29,7 @@ export default function ImageCropModal({file, onCancel, onCropped}: Props) {
     setContrast,
     setAspect,
     setOutputWidth,
+    setOutputHeight,
     setCroppedAreaPixels,
 
     getCroppedImg,
@@ -48,6 +50,7 @@ export default function ImageCropModal({file, onCancel, onCropped}: Props) {
   const modal = (
     <div className="fixed inset-0 bg-black/60 z-[9999] flex items-center justify-center">
       <div className="bg-white rounded-lg shadow-xl p-4 w-[90vw] max-w-[650px]">
+
         {/* 미리보기 */}
         <div className="relative w-full h-[350px] bg-black rounded overflow-hidden flex items-center justify-center">
           {aspect === null ? (
@@ -56,7 +59,7 @@ export default function ImageCropModal({file, onCancel, onCropped}: Props) {
               className="rounded max-h-full object-contain"
               style={{
                 width: `${outputWidth}px`,
-                height: 'auto',
+                height: `${outputHeight}px`,
                 filter: `brightness(${brightness}%) contrast(${contrast}%)`,
               }}
             />
@@ -88,37 +91,66 @@ export default function ImageCropModal({file, onCancel, onCropped}: Props) {
               }
               onChange={(e) => {
                 const v = e.target.value;
-                if(v === 'origin') setAspect(null);
-                else if(v === 'free') setAspect(undefined);
-                else setAspect(Number(v));
+
+                if(v === 'origin') {
+                  setAspect(null);
+                } else if(v === 'free') {
+                  setAspect(undefined);
+                } else {
+                  const ratio = Number(v);
+                  setAspect(ratio);
+                  // 고정비율이면 height 자동 계산
+                  setOutputHeight(Math.round(outputWidth / ratio));
+                }
               }}
             >
               <option value="origin">원본 비율</option>
-              <option value="free">자유</option>
-              <option value="1">1:1</option>
-              <option value="1.33">4:3</option>
-              <option value="0.75">3:4</option>
-              <option value="1.77">16:9</option>
+              <option value="free">자유 비율</option>
+              <option value="1">1 : 1</option>
+              <option value="1.33">4 : 3</option>
+              <option value="0.75">3 : 4</option>
+              <option value="1.77">16 : 9</option>
             </select>
           </div>
 
-          {/* 원본 모드일 때 */}
-          {aspect === null && (
+          {/* 가로/세로 px 입력 */}
+          <div className="flex items-center gap-6">
             <div>
-              <label className="text-sm font-medium">가로 폭(px)</label>
+              <label className="text-sm font-medium">가로(px)</label>
               <input
-                type="range"
-                min={150}
-                max={3000}
+                type="number"
+                className="ml-2 w-28 border rounded px-2 py-1"
                 value={outputWidth}
-                onChange={(e) => setOutputWidth(Number(e.target.value))}
-                className="w-full"
-              />
-              <div className="text-xs text-gray-500 mt-1">{outputWidth}px</div>
-            </div>
-          )}
+                onChange={(e) => {
+                  const w = Number(e.target.value);
+                  setOutputWidth(w);
 
-          {/* crop 모드 옵션 */}
+                  if(aspect && aspect !== undefined) {
+                    setOutputHeight(Math.round(w / aspect));
+                  }
+                }}
+              />
+            </div>
+
+            <div>
+              <label className="text-sm font-medium">세로(px)</label>
+              <input
+                type="number"
+                className="ml-2 w-28 border rounded px-2 py-1"
+                value={outputHeight}
+                onChange={(e) => {
+                  const h = Number(e.target.value);
+                  setOutputHeight(h);
+
+                  if(aspect && aspect !== undefined) {
+                    setOutputWidth(Math.round(h * aspect));
+                  }
+                }}
+              />
+            </div>
+          </div>
+
+          {/* crop 모드 옵션만 활성 */}
           {aspect !== null && (
             <>
               <div>
@@ -148,7 +180,7 @@ export default function ImageCropModal({file, onCancel, onCropped}: Props) {
             </>
           )}
 
-          {/* 공통 */}
+          {/* 공통 옵션 */}
           <div>
             <label className="text-sm font-medium">밝기</label>
             <input

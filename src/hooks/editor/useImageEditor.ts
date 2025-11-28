@@ -1,40 +1,51 @@
 'use client';
 
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useEffect, useState } from 'react';
 import { Area } from 'react-easy-crop';
 
 export function useImageEditor(file: File | null) {
-  const [crop, setCrop] = useState({x: 0, y: 0});
-  const [zoom, setZoom] = useState(1);
-  const [rotation, setRotation] = useState(0);
-  const [brightness, setBrightness] = useState(100);
-  const [contrast, setContrast] = useState(100);
+  const [imgUrl, setImgUrl] = useState<string>('');
+  const [originalWidth, setOriginalWidth] = useState<number>(0);
+  const [originalHeight, setOriginalHeight] = useState<number>(0);
 
-  const [aspect, setAspect] = useState<number | undefined | null>(1); // null = 원본비율
-  const [outputWidth, setOutputWidth] = useState(1200);
-  const [originalWidth, setOriginalWidth] = useState<number | null>(null);
+  const [outputWidth, setOutputWidth] = useState<number>(0);
+  const [outputHeight, setOutputHeight] = useState<number>(0);
+
+  const [crop, setCrop] = useState<{x: number; y: number}>({x: 0, y: 0});
+  const [zoom, setZoom] = useState<number>(1);
+  const [rotation, setRotation] = useState<number>(0);
+  const [brightness, setBrightness] = useState<number>(100);
+  const [contrast, setContrast] = useState<number>(100);
+
+  // aspect = null    → 원본 비율 모드
+  // aspect = undefined → 자유 비율 모드
+  // aspect = number  → 고정 비율
+  const [aspect, setAspect] = useState<number | null | undefined>(null);
 
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null);
 
-  const imgUrl = useMemo(() => (file ? URL.createObjectURL(file) : ''), [file]);
-
-  // ⭐ 업로드된 원본 이미지 width 자동 설정
   useEffect(() => {
     if(!file) return;
 
     const url = URL.createObjectURL(file);
+    setImgUrl(url);
+
     const img = new Image();
-    img.onload = () => {
-      const w = img.width;
-      const limited = Math.min(w, 3000);
-      setOriginalWidth(w);
-      setOutputWidth(limited);
-    };
     img.src = url;
+
+    img.onload = () => {
+      setOriginalWidth(img.width);
+      setOriginalHeight(img.height);
+
+      setOutputWidth(img.width);
+      setOutputHeight(img.height);
+    };
+
+    return () => URL.revokeObjectURL(url);
   }, [file]);
 
-  const createImage = (url: string) =>
-    new Promise<HTMLImageElement>((resolve, reject) => {
+  const createImage = (url: string): Promise<HTMLImageElement> =>
+    new Promise((resolve, reject) => {
       const img = new Image();
       img.crossOrigin = 'anonymous';
       img.onload = () => resolve(img);
@@ -42,44 +53,30 @@ export function useImageEditor(file: File | null) {
       img.src = url;
     });
 
-  const getCroppedImg = useCallback(async() => {
-    if(!file) return null;
+  async function getCroppedImg(): Promise<Blob | null> {
+    if(!imgUrl) return null;
 
     const image = await createImage(imgUrl);
+
     const canvas = document.createElement('canvas');
+    canvas.width = outputWidth;
+    canvas.height = outputHeight;
+
     const ctx = canvas.getContext('2d');
     if(!ctx) return null;
 
-    // ⭐ 원본 비율 모드
-    if(aspect === null) {
-      const scale = outputWidth / image.width;
+    ctx.filter = `brightness(${brightness}%) contrast(${contrast}%)`;
 
-      const finalWidth = outputWidth;
-      const finalHeight = image.height * scale;
+    // crop 모드가 아닐 때: 원본 비율 모드 or 자유 비율 모드
+    if(aspect === null || aspect === undefined || !croppedAreaPixels) {
+      ctx.drawImage(image, 0, 0, outputWidth, outputHeight);
 
-      canvas.width = finalWidth;
-      canvas.height = finalHeight;
-
-      ctx.filter = `brightness(${brightness}%) contrast(${contrast}%)`;
-      ctx.drawImage(image, 0, 0, finalWidth, finalHeight);
-
-      return new Promise<Blob | null>((resolve) =>
-        canvas.toBlob((blob) => resolve(blob), 'image/jpeg', 0.9),
+      return new Promise((resolve) =>
+        canvas.toBlob((blob) => resolve(blob), 'image/jpeg', 0.95),
       );
     }
 
-    // ⭐ crop 모드
-    if(!croppedAreaPixels) return null;
-
-    const scale = outputWidth / croppedAreaPixels.width;
-    const finalWidth = outputWidth;
-    const finalHeight = croppedAreaPixels.height * scale;
-
-    canvas.width = finalWidth;
-    canvas.height = finalHeight;
-
-    ctx.filter = `brightness(${brightness}%) contrast(${contrast}%)`;
-
+    // crop 모드일 때
     ctx.drawImage(
       image,
       croppedAreaPixels.x,
@@ -88,25 +85,16 @@ export function useImageEditor(file: File | null) {
       croppedAreaPixels.height,
       0,
       0,
-      finalWidth,
-      finalHeight,
+      outputWidth,
+      outputHeight,
     );
 
-    return new Promise<Blob | null>((resolve) =>
-      canvas.toBlob((blob) => resolve(blob), 'image/jpeg', 0.9),
+    return new Promise((resolve) =>
+      canvas.toBlob((blob) => resolve(blob), 'image/jpeg', 0.95),
     );
-  }, [
-    aspect,
-    brightness,
-    contrast,
-    croppedAreaPixels,
-    file,
-    imgUrl,
-    outputWidth,
-  ]);
+  }
 
   return {
-    // state
     crop,
     zoom,
     rotation,
@@ -114,11 +102,9 @@ export function useImageEditor(file: File | null) {
     contrast,
     aspect,
     outputWidth,
-    originalWidth,
-    croppedAreaPixels,
+    outputHeight,
     imgUrl,
 
-    // setters
     setCrop,
     setZoom,
     setRotation,
@@ -126,9 +112,9 @@ export function useImageEditor(file: File | null) {
     setContrast,
     setAspect,
     setOutputWidth,
+    setOutputHeight,
     setCroppedAreaPixels,
 
-    // core
     getCroppedImg,
   };
 }
