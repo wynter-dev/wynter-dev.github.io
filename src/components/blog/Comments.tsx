@@ -10,7 +10,7 @@ export default function Comments() {
     <div className="mt-5">
       <Giscus
         id="comments"
-        repo="wynter-dev/wynter-dev"
+        repo="wynter-dev/wynter-blog"
         repoId="R_kgDOQZYZeg"
         category="Announcements"
         categoryId="DIC_kwDOQZYZes4CzEqH"

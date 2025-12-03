@@ -47,7 +47,7 @@ export default function Image() {
             opacity: 0.25,
           }}
         >
-          wynter-dev.vercel.app
+          wynter-blog.vercel.app
         </div>
       </div>
     ),

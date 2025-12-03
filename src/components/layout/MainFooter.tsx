@@ -8,7 +8,7 @@ export function MainFooter() {
       <p>© 2025 wynter.log</p>
       <p className="text-xs">Built with Next.js · TailwindCSS · shadcn/ui</p>
       <NoPrefetchLink
-        href="https://github.com/wynter-dev/wynter-dev"
+        href="https://github.com/wynter-dev/wynter-blog"
         className="text-xs underline hover:text-foreground transition"
         target="_blank"
       >
